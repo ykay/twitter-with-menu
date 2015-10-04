@@ -16,7 +16,7 @@ class User: NSObject {
   
   var name: String = ""
   var screenname: String = ""
-  var profileImageUrl: String = ""
+  var profileImageUrl: NSURL?
   var tagline: String = ""
   var rawDictionary: [String:AnyObject]?
   
@@ -30,7 +30,7 @@ class User: NSObject {
       screenname = value
     }
     if let value = data["profile_image_url"] as? String {
-      profileImageUrl = value
+      profileImageUrl = NSURL(string: value)
     }
     if let value = data["description"] as? String {
       tagline = value
