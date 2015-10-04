@@ -9,6 +9,9 @@
 import UIKit
 import BDBOAuth1Manager
 
+let userLoginNotification = "userLoginNotification"
+let userLogoutNotification = "userLogoutNotification"
+
 private let twitterConsumerKey = "rCR1szO5RrohQDz3tAigPsXFJ"
 private let twitterConsumerSecret = "kRaUPVtvjrF5HVOb5G4YaBwUyAI27pU9Un7bkjZKRWg2qZwnLr"
 private let twitterBaseUrl = "https://api.twitter.com"
@@ -39,6 +42,24 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
     )
   }
   
+  func logout() {
+    User.currentUser = nil
+    TwitterClient.sharedInstance.requestSerializer.removeAccessToken()
+    
+    NSNotificationCenter.defaultCenter().postNotificationName(userLogoutNotification, object: nil)
+  }
+  
+  func homeTimelineWithParams(params: [String:AnyObject]?, completion: (tweets: [Tweet]?, error: NSError?) -> Void) {
+    GET("1.1/statuses/home_timeline.json", parameters: nil,
+      success: { (request: AFHTTPRequestOperation!, data: AnyObject!) -> Void in
+        
+        completion(tweets: Tweet.tweetsWithArray(data as! [AnyObject]), error: nil)
+      },
+      failure: { (request: AFHTTPRequestOperation!, error: NSError!) -> Void in
+        completion(tweets: nil, error: error)
+    })
+  }
+  
   func openURL(url: NSURL) {
     fetchAccessTokenWithPath("oauth/access_token", method: "POST", requestToken: BDBOAuth1Credential(queryString: url.query!),
       success: { (accessToken: BDBOAuth1Credential!) -> Void in
@@ -52,29 +73,20 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
             let user = User(data as! [String:AnyObject])
             print("user name: \(user.name)")
             
+            User.currentUser = user
+            
             self.loginCompletion?(user, nil)
           },
           failure: { (request: AFHTTPRequestOperation!, error: NSError!) -> Void in
             print("Failed to get user data")
             self.loginCompletion?(nil, error)
         })
-        
-        /*self.GET("1.1/statuses/home_timeline.json", parameters: nil,
-          success: { (request: AFHTTPRequestOperation!, data: AnyObject!) -> Void in
-            
-            for tweet in Tweet.tweetsWithArray(data as! [AnyObject]) {
-              print("Tweet: " + tweet.text)
-            }
-          },
-          failure: { (request: AFHTTPRequestOperation!, error: NSError!) -> Void in
-            print("Failed to get tweet data")
-        })*/
       },
       failure: {
         (error: NSError!) -> Void in
         print("Failed to get the access token!")
         self.loginCompletion?(nil, error)
     })
-
+    
   }
 }

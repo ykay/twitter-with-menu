@@ -10,6 +10,7 @@ import UIKit
 
 class Tweet: NSObject {
 
+  // TODO: Should these be optionals?
   let user: User?
   var text: String = ""
   let createdAt: NSDate?

@@ -25,7 +25,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     self.window!.rootViewController = navController
     self.window!.makeKeyAndVisible()
     
+    navController.navigationItem.title = "Twitter"
+    
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDidLogout", name: userLogoutNotification, object: nil)
+
+    if User.currentUser != nil {
+      // Go to logged in screen
+      print("Current user logged in: " + User.currentUser!.name)
+      
+      let homeViewController: UIViewController = HomeViewController()
+      navController.pushViewController(homeViewController, animated: true)
+    }
+    
     return true
+  }
+
+  func userDidLogout() {
+    print("Notification: User Logged out")
   }
 
   func applicationWillResignActive(application: UIApplication) {
