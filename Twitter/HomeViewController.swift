@@ -113,6 +113,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
   
   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     tableView.deselectRowAtIndexPath(indexPath, animated: false)
+    
+    let tweetDetailsViewController = TweetDetailsViewController()
+    tweetDetailsViewController.tweet = tweets[indexPath.row]
+    navigationController?.pushViewController(tweetDetailsViewController, animated: true)
   }
   
   override func didReceiveMemoryWarning() {
