@@ -16,7 +16,9 @@ class TweetTableViewCell: UITableViewCell {
   @IBOutlet weak var profileThumbImageView: UIImageView!
   @IBOutlet weak var favoriteImageView: UIImageView!
   @IBOutlet weak var favoriteLabel: UILabel!
-  
+  @IBOutlet weak var replyImageView: UIImageView!
+  @IBOutlet weak var retweetImageView: UIImageView!
+
   var tweet: Tweet! {
     didSet {
       nameLabel.text = tweet.user!.name
@@ -29,11 +31,21 @@ class TweetTableViewCell: UITableViewCell {
         favoriteImageView.image = UIImage(named: "favorite_on.png")
         favoriteLabel.textColor = UIColor(red:0.99, green:0.61, blue:0.16, alpha:1.0)
       } else {
-        favoriteImageView.image = UIImage(named: "favorite.png")
+        favoriteImageView.image = UIImage(named: "favorite_hover.png")
         favoriteLabel.textColor = UIColor.lightGrayColor()
       }
       
       favoriteLabel.text = "\(tweet.favoriteCount)"
+      
+      if tweet.user!.name == User.currentUser!.name {
+        retweetImageView.image = UIImage(named: "retweet.png")
+      } else {
+        if tweet.retweeted {
+          retweetImageView.image = UIImage(named: "retweet_on.png")
+        } else {
+          retweetImageView.image = UIImage(named: "retweet_hover.png")
+        }
+      }
       
       /* Fade in code
       profileThumbImageView.setImageWithURLRequest(NSURLRequest(URL: tweet.user!.profileImageUrl!), placeholderImage: nil,
@@ -58,12 +70,45 @@ class TweetTableViewCell: UITableViewCell {
     // Initialization code
     profileThumbImageView.layer.cornerRadius = 10.0
     profileThumbImageView.clipsToBounds = true
+
+    let replyTap = UITapGestureRecognizer(target: self, action: "onReplyTap")
+    replyTap.numberOfTapsRequired = 1
+    replyImageView.userInteractionEnabled = true
+    replyImageView.addGestureRecognizer(replyTap)
+    replyImageView.image = UIImage(named: "reply_hover.png")
+    
+    let retweetTap = UITapGestureRecognizer(target: self, action: "onRetweetTap")
+    retweetTap.numberOfTapsRequired = 1
+    // Disable if it's already been retweeted
+    retweetImageView.userInteractionEnabled = true
+    retweetImageView.addGestureRecognizer(retweetTap)
     
     // Make favorite image tap-able.
     let favoriteTap = UITapGestureRecognizer(target: self, action: "onFavoriteTap")
     favoriteTap.numberOfTapsRequired = 1
     favoriteImageView.userInteractionEnabled = true
     favoriteImageView.addGestureRecognizer(favoriteTap)
+  }
+  
+  func onReplyTap() {
+    print("Replied to \(tweet.id)")
+    
+  }
+  
+  func onRetweetTap() {
+    // Only retweet if not own tweet
+    if tweet.user!.name != User.currentUser!.name {
+      
+      // Only allow retweeting if it hasn't been retweeted yet.
+      if !tweet.retweeted {
+        TwitterClient.sharedInstance.retweet(tweet.id) { (data: [String:AnyObject]?, error: NSError?) -> Void in
+          
+          self.retweetImageView.image = UIImage(named: "retweet_on.png")
+        }
+      }
+    } else {
+      print("Can't retweet own tweet")
+    }
   }
   
   func onFavoriteTap() {

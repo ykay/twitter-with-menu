@@ -12,6 +12,14 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
   @IBOutlet weak var tweetTextView: UITextView!
   @IBOutlet weak var tweetCounterLabel: UILabel!
   
+  var inReplyToStatusId: String?
+  
+  convenience init(inReplyToStatusId: String) {
+    self.init()
+    
+    self.inReplyToStatusId = inReplyToStatusId
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -52,7 +60,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
   }
   
   func onTweet() {
-    TwitterClient.sharedInstance.tweet(tweetTextView.text) { (data: [String:AnyObject]?, error: NSError?) -> Void in
+    TwitterClient.sharedInstance.tweet(tweetTextView.text, inReplyToStatusId: inReplyToStatusId) { (data: [String:AnyObject]?, error: NSError?) -> Void in
       
       if error == nil {
         

@@ -17,6 +17,7 @@ class Tweet: NSObject {
   let createdAt: NSDate?
   var favorited = false
   var favoriteCount = 0
+  var retweeted = false
   let rawDictionary: [String:AnyObject]?
   
   init(_ data: [String:AnyObject]) {
@@ -48,6 +49,9 @@ class Tweet: NSObject {
       favoriteCount = value
     }
 
+    if let value = data["retweeted"] as? Bool {
+      retweeted = value
+    }
   }
   
   class func tweetsWithArray(data: [AnyObject]) -> [Tweet] {

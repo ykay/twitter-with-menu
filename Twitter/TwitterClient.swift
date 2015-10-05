@@ -89,10 +89,27 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
     })
   }
   
-  func tweet(text: String, completion: (data: [String:AnyObject]?, error: NSError?) -> Void) {
-    let params = [ "status" : text ]
+  func tweet(text: String, inReplyToStatusId: String?, completion: (data: [String:AnyObject]?, error: NSError?) -> Void) {
+    var params = [ "status" : text ]
+    
+    if inReplyToStatusId != nil {
+      params["in_reply_to_status_id"] = inReplyToStatusId
+    }
     
     POST("1.1/statuses/update.json", parameters: params,
+      success: { (request: AFHTTPRequestOperation!, data: AnyObject!) -> Void in
+        
+        completion(data: data as? [String:AnyObject], error: nil)
+      },
+      failure: { (request: AFHTTPRequestOperation!, error: NSError!) -> Void in
+        
+        completion(data: nil, error: error)
+    })
+  }
+  
+  func retweet(id: String, completion: (data: [String:AnyObject]?, error: NSError?) -> Void) {
+    
+    POST("1.1/statuses/retweet/\(id).json", parameters: nil,
       success: { (request: AFHTTPRequestOperation!, data: AnyObject!) -> Void in
         
         completion(data: data as? [String:AnyObject], error: nil)
