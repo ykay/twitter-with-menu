@@ -15,17 +15,19 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JPo-ni-7nH">
-                    <rect key="frame" x="239" y="135" width="122" height="30"/>
-                    <state key="normal" title="Login with Twitter"/>
+                    <rect key="frame" x="281" y="285" width="38" height="30"/>
+                    <state key="normal" title="Login">
+                        <color key="titleColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
                     <connections>
                         <action selector="onLogin:" destination="-1" eventType="touchUpInside" id="gyI-sw-WcQ"/>
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.27450980390000002" green="0.60392156860000001" blue="0.91764705879999997" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="JPo-ni-7nH" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="135" id="Mz1-dI-bNe"/>
                 <constraint firstItem="JPo-ni-7nH" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="OQu-aJ-xSd"/>
+                <constraint firstItem="JPo-ni-7nH" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="leP-R3-QVb"/>
             </constraints>
         </view>
     </objects>

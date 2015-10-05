@@ -27,6 +27,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     navController.navigationItem.title = "Twitter"
     
+    let titleDict: [String:AnyObject] = [NSForegroundColorAttributeName: UIColor(red:0.27, green:0.60, blue:0.92, alpha:1.0)]
+    navController.navigationBar.titleTextAttributes = titleDict as [String : AnyObject]
+    
     NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDidLogout", name: userLogoutNotification, object: nil)
 
     if User.currentUser != nil {

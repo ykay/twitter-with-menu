@@ -17,6 +17,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    if let user = User.currentUser {
+      navigationItem.title = "@" + user.screenname
+    }
+    
     tableView.delegate = self
     tableView.dataSource = self
     
@@ -43,8 +47,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.tweets = tweets!
         self.tableView.reloadData()
         
+        for tweet in tweets! {
+          //print(tweet.rawDictionary!)
+        }
+        
       } else {
-        print("Failed to get tweet data; Logging out...")
+        print("Failed to get tweet data")
       }
     }
   }

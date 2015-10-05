@@ -14,6 +14,8 @@ class TweetTableViewCell: UITableViewCell {
   @IBOutlet weak var tweetTextLabel: UILabel!
   @IBOutlet weak var dateLabel: UILabel!
   @IBOutlet weak var profileThumbImageView: UIImageView!
+  @IBOutlet weak var favoriteImageView: UIImageView!
+  @IBOutlet weak var favoriteLabel: UILabel!
   
   var tweet: Tweet! {
     didSet {
@@ -22,7 +24,19 @@ class TweetTableViewCell: UITableViewCell {
       tweetTextLabel.text = tweet.text
       dateLabel.text = tweet.createdAt?.description
       profileThumbImageView.setImageWithURL(tweet.user!.profileImageUrl)
-      /*profileThumbImageView.setImageWithURLRequest(NSURLRequest(URL: tweet.user!.profileImageUrl!), placeholderImage: nil,
+      
+      if tweet.favorited {
+        favoriteImageView.image = UIImage(named: "favorite_on.png")
+        favoriteLabel.textColor = UIColor(red:0.99, green:0.61, blue:0.16, alpha:1.0)
+      } else {
+        favoriteImageView.image = UIImage(named: "favorite.png")
+        favoriteLabel.textColor = UIColor.lightGrayColor()
+      }
+      
+      favoriteLabel.text = "\(tweet.favoriteCount)"
+      
+      /* Fade in code
+      profileThumbImageView.setImageWithURLRequest(NSURLRequest(URL: tweet.user!.profileImageUrl!), placeholderImage: nil,
         success: { (request: NSURLRequest!, response: NSHTTPURLResponse!, image: UIImage!) -> Void in
           let retrievedImage = image
           UIView.transitionWithView(self.profileThumbImageView, duration: 2.0, options: UIViewAnimationOptions.TransitionCrossDissolve,
@@ -44,7 +58,31 @@ class TweetTableViewCell: UITableViewCell {
     // Initialization code
     profileThumbImageView.layer.cornerRadius = 10.0
     profileThumbImageView.clipsToBounds = true
-
+    
+    // Make favorite image tap-able.
+    let favoriteTap = UITapGestureRecognizer(target: self, action: "onFavoriteTap")
+    favoriteTap.numberOfTapsRequired = 1
+    favoriteImageView.userInteractionEnabled = true
+    favoriteImageView.addGestureRecognizer(favoriteTap)
+  }
+  
+  func onFavoriteTap() {
+    
+    if tweet.favorited {
+      TwitterClient.sharedInstance.unfavorite(tweet.id) { (data: [String:AnyObject]?, error: NSError?) -> Void in
+        
+        if let data = data {
+          self.tweet = Tweet(data)
+        }
+      }
+    } else {
+      TwitterClient.sharedInstance.favorite(tweet.id) { (data: [String:AnyObject]?, error: NSError?) -> Void in
+        
+        if let data = data {
+          self.tweet = Tweet(data)
+        }
+      }
+    }
   }
   
   override func setSelected(selected: Bool, animated: Bool) {
