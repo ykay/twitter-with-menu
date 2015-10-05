@@ -71,10 +71,6 @@ class TweetTableViewCell: UITableViewCell {
     profileThumbImageView.layer.cornerRadius = 10.0
     profileThumbImageView.clipsToBounds = true
 
-    let replyTap = UITapGestureRecognizer(target: self, action: "onReplyTap")
-    replyTap.numberOfTapsRequired = 1
-    replyImageView.userInteractionEnabled = true
-    replyImageView.addGestureRecognizer(replyTap)
     replyImageView.image = UIImage(named: "reply_hover.png")
     
     let retweetTap = UITapGestureRecognizer(target: self, action: "onRetweetTap")
@@ -88,11 +84,6 @@ class TweetTableViewCell: UITableViewCell {
     favoriteTap.numberOfTapsRequired = 1
     favoriteImageView.userInteractionEnabled = true
     favoriteImageView.addGestureRecognizer(favoriteTap)
-  }
-  
-  func onReplyTap() {
-    print("Replied to \(tweet.id)")
-    
   }
   
   func onRetweetTap() {

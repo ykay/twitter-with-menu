@@ -12,12 +12,16 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
   @IBOutlet weak var tweetTextView: UITextView!
   @IBOutlet weak var tweetCounterLabel: UILabel!
   
-  var inReplyToStatusId: String?
+  private let maximumTweetLength = 140
   
-  convenience init(inReplyToStatusId: String) {
+  var inReplyToStatusId: String?
+  var inReplyToScreenname: String?
+  
+  convenience init(inReplyToStatusId: String, inReplyToScreenname: String) {
     self.init()
     
     self.inReplyToStatusId = inReplyToStatusId
+    self.inReplyToScreenname = inReplyToScreenname
   }
   
   override func viewDidLoad() {
@@ -34,6 +38,11 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     self.edgesForExtendedLayout = UIRectEdge.None
     
     tweetTextView.delegate = self
+    
+    if let screenname = inReplyToScreenname {
+      tweetTextView.text = "@\(screenname) "
+      tweetCounterLabel.text = "\(maximumTweetLength - tweetTextView.text.characters.count)"
+    }
   }
   
   override func didReceiveMemoryWarning() {
@@ -47,7 +56,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
       return true;
     }
     
-    if textView.text.characters.count >= 140 {
+    if textView.text.characters.count >= maximumTweetLength {
       return false
     }
     return true
@@ -55,7 +64,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
   
   func textViewDidChange(textView: UITextView) {
     if textView == tweetTextView {
-      tweetCounterLabel.text = "\(140 - textView.text.characters.count)"
+      tweetCounterLabel.text = "\(maximumTweetLength - textView.text.characters.count)"
     }
   }
   
