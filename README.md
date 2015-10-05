@@ -28,4 +28,4 @@ Time spent: 18
 
 ### Walkthrough
 
-![Video Walkthrough](worldtip-walkthrough.gif)
+![Video Walkthrough](twitter-walkthrough.gif)
