@@ -76,9 +76,23 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
   }
   
   func unfavorite(id: String, completion: (data: [String:AnyObject]?, error: NSError?) -> Void) {
-    let params = [ "id":id ]
+    let params = [ "id" : id ]
     
     POST("1.1/favorites/destroy.json", parameters: params,
+      success: { (request: AFHTTPRequestOperation!, data: AnyObject!) -> Void in
+        
+        completion(data: data as? [String:AnyObject], error: nil)
+      },
+      failure: { (request: AFHTTPRequestOperation!, error: NSError!) -> Void in
+        
+        completion(data: nil, error: error)
+    })
+  }
+  
+  func tweet(text: String, completion: (data: [String:AnyObject]?, error: NSError?) -> Void) {
+    let params = [ "status" : text ]
+    
+    POST("1.1/statuses/update.json", parameters: params,
       success: { (request: AFHTTPRequestOperation!, data: AnyObject!) -> Void in
         
         completion(data: data as? [String:AnyObject], error: nil)

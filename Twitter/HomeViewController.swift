@@ -13,6 +13,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
   
   var tweets = [Tweet]()
   var refreshControl: UIRefreshControl!
+  var needsRefresh = false
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -20,6 +21,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     if let user = User.currentUser {
       navigationItem.title = "@" + user.screenname
     }
+    
+    navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: UIBarButtonItemStyle.Plain, target: self, action: "onCompose")
     
     tableView.delegate = self
     tableView.dataSource = self
@@ -39,6 +42,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     fetchTweets()
   }
   
+  override func viewWillAppear(animated: Bool) {
+    if needsRefresh {
+      fetchTweets()
+    }
+    
+    needsRefresh = false
+  }
+  
   func fetchTweets() {
     // TODO: Pass parameters
     TwitterClient.sharedInstance.homeTimelineWithParams(nil) { (tweets: [Tweet]?, error: NSError?) -> Void in
@@ -56,11 +67,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
       }
     }
   }
-  
+
   func onRefresh() {
     fetchTweets()
     
     refreshControl.endRefreshing()
+  }
+
+  func onCompose() {
+    let composeViewController = ComposeViewController()
+    
+    navigationController?.pushViewController(composeViewController, animated: true)
   }
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
