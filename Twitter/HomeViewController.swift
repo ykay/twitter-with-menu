@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class HomeViewController: UIViewController {
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var menuView: UIView!
   @IBOutlet weak var menuConstraintWidth: NSLayoutConstraint!
@@ -106,39 +106,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     navigationController?.pushViewController(composeViewController, animated: true)
   }
   
-  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if tableView == self.menuTableView {
-      return 3
-    } else {
-      return tweets.count
-    }
-  }
-  
-  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    if tableView == self.menuTableView {
-      let cell = tableView.dequeueReusableCellWithIdentifier("MenuItemCell", forIndexPath: indexPath) as! MenuItemCell
-      
-      cell.nameLabel.text = "Home \(indexPath.row)"
-      
-      return cell
-    } else {
-      let cell = tableView.dequeueReusableCellWithIdentifier("TweetTableViewCell", forIndexPath: indexPath) as! TweetTableViewCell
-      
-      cell.tweet = tweets[indexPath.row]
-      
-      let replyTap = TweetTapGestureRecognizer(target: self, action: "onReplyTap:")
-      replyTap.numberOfTapsRequired = 1
-      replyTap.id = tweets[indexPath.row].id
-      replyTap.screenname = tweets[indexPath.row].user!.screenname
-      
-      // Add tap handler for cell here, since we need to push a view controller from here.
-      cell.replyImageView.userInteractionEnabled = true
-      cell.replyImageView.addGestureRecognizer(replyTap)
-      
-      return cell
-    }
-  }
-  
   func onReplyTap(sender: AnyObject!) {
     let tweetTap = sender as! TweetTapGestureRecognizer
     
@@ -147,18 +114,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     let composeViewController = ComposeViewController(inReplyToStatusId: tweetTap.id, inReplyToScreenname: tweetTap.screenname)
     
     navigationController?.pushViewController(composeViewController, animated: true)
-  }
-  
-  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    tableView.deselectRowAtIndexPath(indexPath, animated: false)
-    
-    if tableView == menuTableView {
-      // Switch view
-    } else {
-      let tweetDetailsViewController = TweetDetailsViewController()
-      tweetDetailsViewController.tweet = tweets[indexPath.row]
-      navigationController?.pushViewController(tweetDetailsViewController, animated: true)
-    }
   }
   
   override func didReceiveMemoryWarning() {
@@ -216,4 +171,51 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
   }
   */
   
+}
+
+extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
+  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    if tableView == self.menuTableView {
+      return 3
+    } else {
+      return tweets.count
+    }
+  }
+  
+  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    if tableView == self.menuTableView {
+      let cell = tableView.dequeueReusableCellWithIdentifier("MenuItemCell", forIndexPath: indexPath) as! MenuItemCell
+      
+      cell.nameLabel.text = "Home \(indexPath.row)"
+      
+      return cell
+    } else {
+      let cell = tableView.dequeueReusableCellWithIdentifier("TweetTableViewCell", forIndexPath: indexPath) as! TweetTableViewCell
+      
+      cell.tweet = tweets[indexPath.row]
+      
+      let replyTap = TweetTapGestureRecognizer(target: self, action: "onReplyTap:")
+      replyTap.numberOfTapsRequired = 1
+      replyTap.id = tweets[indexPath.row].id
+      replyTap.screenname = tweets[indexPath.row].user!.screenname
+      
+      // Add tap handler for cell here, since we need to push a view controller from here.
+      cell.replyImageView.userInteractionEnabled = true
+      cell.replyImageView.addGestureRecognizer(replyTap)
+      
+      return cell
+    }
+  }
+  
+  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    tableView.deselectRowAtIndexPath(indexPath, animated: false)
+    
+    if tableView == menuTableView {
+      // Switch view
+    } else {
+      let tweetDetailsViewController = TweetDetailsViewController()
+      tweetDetailsViewController.tweet = tweets[indexPath.row]
+      navigationController?.pushViewController(tweetDetailsViewController, animated: true)
+    }
+  }
 }
