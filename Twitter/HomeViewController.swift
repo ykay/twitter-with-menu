@@ -10,10 +10,18 @@ import UIKit
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
   @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var menuView: UIView!
+  @IBOutlet weak var menuConstraintWidth: NSLayoutConstraint!
+  @IBOutlet weak var menuTableView: UITableView!
   
   var tweets = [Tweet]()
   var refreshControl: UIRefreshControl!
   var needsRefresh = false
+  
+  var menuBeginningConstraintWidth: CGFloat!
+  var menuOpenedConstraintWidth: CGFloat!
+  var menuClosedConstraintWidth: CGFloat!
+  
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -21,6 +29,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     if let user = User.currentUser {
       navigationItem.title = "@" + user.screenname
     }
+    
+    menuOpenedConstraintWidth = 320.0
+    menuClosedConstraintWidth = menuConstraintWidth.constant // about 15
     
     navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: UIBarButtonItemStyle.Plain, target: self, action: "onCompose")
     
@@ -36,8 +47,23 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     tableView.rowHeight = UITableViewAutomaticDimension
     tableView.estimatedRowHeight = 140
     
+    menuTableView.delegate = self
+    menuTableView.dataSource = self
+    
+    menuTableView.registerNib(UINib(nibName: "MenuItemCell", bundle: nil), forCellReuseIdentifier: "MenuItemCell")
+    menuTableView.rowHeight = UITableViewAutomaticDimension
+    menuTableView.estimatedRowHeight = 140
+    
+    menuTableView.backgroundColor = UIColor.lightGrayColor()
+    
     let logoutButton = UIBarButtonItem(title: "Logout", style: .Plain, target: self, action: "onLogout:")
     navigationItem.leftBarButtonItem = logoutButton
+    
+    let menuPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "onMenuPan:")
+    menuView.addGestureRecognizer(menuPanGestureRecognizer)
+    
+    // So text box doesn't extend beyond navigation bar
+    self.edgesForExtendedLayout = UIRectEdge.None
     
     fetchTweets()
   }
@@ -81,24 +107,36 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
   }
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return tweets.count
+    if tableView == self.menuTableView {
+      return 3
+    } else {
+      return tweets.count
+    }
   }
   
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier("TweetTableViewCell", forIndexPath: indexPath) as! TweetTableViewCell
-    
-    cell.tweet = tweets[indexPath.row]
-    
-    let replyTap = TweetTapGestureRecognizer(target: self, action: "onReplyTap:")
-    replyTap.numberOfTapsRequired = 1
-    replyTap.id = tweets[indexPath.row].id
-    replyTap.screenname = tweets[indexPath.row].user!.screenname
-    
-    // Add tap handler for cell here, since we need to push a view controller from here.
-    cell.replyImageView.userInteractionEnabled = true
-    cell.replyImageView.addGestureRecognizer(replyTap)
-    
-    return cell
+    if tableView == self.menuTableView {
+      let cell = tableView.dequeueReusableCellWithIdentifier("MenuItemCell", forIndexPath: indexPath) as! MenuItemCell
+      
+      cell.nameLabel.text = "Home \(indexPath.row)"
+      
+      return cell
+    } else {
+      let cell = tableView.dequeueReusableCellWithIdentifier("TweetTableViewCell", forIndexPath: indexPath) as! TweetTableViewCell
+      
+      cell.tweet = tweets[indexPath.row]
+      
+      let replyTap = TweetTapGestureRecognizer(target: self, action: "onReplyTap:")
+      replyTap.numberOfTapsRequired = 1
+      replyTap.id = tweets[indexPath.row].id
+      replyTap.screenname = tweets[indexPath.row].user!.screenname
+      
+      // Add tap handler for cell here, since we need to push a view controller from here.
+      cell.replyImageView.userInteractionEnabled = true
+      cell.replyImageView.addGestureRecognizer(replyTap)
+      
+      return cell
+    }
   }
   
   func onReplyTap(sender: AnyObject!) {
@@ -114,9 +152,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     tableView.deselectRowAtIndexPath(indexPath, animated: false)
     
-    let tweetDetailsViewController = TweetDetailsViewController()
-    tweetDetailsViewController.tweet = tweets[indexPath.row]
-    navigationController?.pushViewController(tweetDetailsViewController, animated: true)
+    if tableView == menuTableView {
+      // Switch view
+    } else {
+      let tweetDetailsViewController = TweetDetailsViewController()
+      tweetDetailsViewController.tweet = tweets[indexPath.row]
+      navigationController?.pushViewController(tweetDetailsViewController, animated: true)
+    }
   }
   
   override func didReceiveMemoryWarning() {
@@ -128,6 +170,40 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     TwitterClient.sharedInstance.logout()
     
     navigationController?.popViewControllerAnimated(true)
+  }
+  
+  func onMenuPan(sender: UIPanGestureRecognizer) {
+    
+    switch sender.state {
+    case .Began:
+      menuBeginningConstraintWidth = menuConstraintWidth.constant
+      break
+    case .Changed:
+      let currentPoint = sender.translationInView(self.view)
+      
+      menuConstraintWidth.constant = menuBeginningConstraintWidth + currentPoint.x
+    case .Cancelled:
+      // TODO: Handle cancelled
+      break
+    case .Ended:
+      
+      if sender.velocityInView(self.view).x > 0 {
+        // Moving Right
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+          self.menuConstraintWidth.constant = self.menuOpenedConstraintWidth
+          self.view.layoutIfNeeded()
+        })
+      } else {
+        // Moving Left
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+          self.menuConstraintWidth.constant = self.menuClosedConstraintWidth
+          self.view.layoutIfNeeded()
+        })
+      }
+      
+    default:
+      break
+    }
   }
   
   /*

@@ -6,6 +6,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeViewController" customModule="Twitter" customModuleProvider="target">
             <connections>
+                <outlet property="menuConstraintWidth" destination="ahP-ko-iDw" id="BzE-Xm-5GN"/>
+                <outlet property="menuTableView" destination="ZIG-EQ-vBU" id="4mF-kN-mi3"/>
+                <outlet property="menuView" destination="JGQ-rp-NVl" id="EwW-Vr-ims"/>
                 <outlet property="tableView" destination="0de-MB-ny1" id="sBT-ns-74h"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -19,14 +22,51 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </tableView>
+                <view alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JGQ-rp-NVl">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="600"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&gt;" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6da-T8-yuk">
+                            <rect key="frame" x="304" y="285" width="15.5" height="30"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                            <color key="textColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZIG-EQ-vBU">
+                            <rect key="frame" x="0.0" y="160" width="320" height="440"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </tableView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="ZIG-EQ-vBU" firstAttribute="centerY" secondItem="JGQ-rp-NVl" secondAttribute="centerY" id="Eha-hc-gel"/>
+                        <constraint firstAttribute="trailing" secondItem="ZIG-EQ-vBU" secondAttribute="trailing" id="IGF-a1-tdk"/>
+                        <constraint firstAttribute="bottom" secondItem="ZIG-EQ-vBU" secondAttribute="bottom" id="Lq2-8C-mso"/>
+                        <constraint firstItem="ZIG-EQ-vBU" firstAttribute="centerX" secondItem="JGQ-rp-NVl" secondAttribute="centerX" id="MiS-Dh-Q6N"/>
+                        <constraint firstAttribute="trailing" secondItem="6da-T8-yuk" secondAttribute="trailing" id="WnZ-fK-N2k"/>
+                        <constraint firstAttribute="width" constant="320" id="ahP-ko-iDw"/>
+                        <constraint firstItem="6da-T8-yuk" firstAttribute="centerY" secondItem="JGQ-rp-NVl" secondAttribute="centerY" id="aqC-Am-XY2"/>
+                        <constraint firstItem="ZIG-EQ-vBU" firstAttribute="top" secondItem="JGQ-rp-NVl" secondAttribute="top" constant="160" id="dYJ-mS-k4A"/>
+                        <constraint firstAttribute="height" constant="600" id="oTA-DX-svt"/>
+                        <constraint firstItem="ZIG-EQ-vBU" firstAttribute="leading" secondItem="JGQ-rp-NVl" secondAttribute="leading" id="qQm-Rt-TmL"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="Eha-hc-gel"/>
+                        </mask>
+                    </variation>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="JGQ-rp-NVl" secondAttribute="bottom" id="1ch-yP-7fM"/>
+                <constraint firstItem="JGQ-rp-NVl" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="1tM-In-jF8"/>
                 <constraint firstAttribute="bottom" secondItem="0de-MB-ny1" secondAttribute="bottom" id="32m-LO-nZX"/>
                 <constraint firstAttribute="trailing" secondItem="0de-MB-ny1" secondAttribute="trailing" id="6TY-aZ-7WR"/>
                 <constraint firstItem="0de-MB-ny1" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="8yz-0H-1dg"/>
                 <constraint firstItem="0de-MB-ny1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Qrj-2F-rm8"/>
+                <constraint firstItem="JGQ-rp-NVl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="TDJ-bh-mBs"/>
                 <constraint firstItem="0de-MB-ny1" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Vlh-si-SPp"/>
+                <constraint firstItem="JGQ-rp-NVl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="oGg-ld-Pc7"/>
                 <constraint firstItem="0de-MB-ny1" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="wqk-rr-Ow3"/>
             </constraints>
         </view>

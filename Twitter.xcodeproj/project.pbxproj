@@ -13,6 +13,10 @@
 		594482141BBD11D200800BFC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594482121BBD11D200800BFC /* LoginViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		594482151BBD11D200800BFC /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 594482131BBD11D200800BFC /* LoginViewController.xib */; settings = {ASSET_TAGS = (); }; };
 		594482171BBD158500800BFC /* TwitterClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594482161BBD158500800BFC /* TwitterClient.swift */; settings = {ASSET_TAGS = (); }; };
+		59B779721BC7916A003668B8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B779701BC7916A003668B8 /* ProfileViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		59B779731BC7916A003668B8 /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59B779711BC7916A003668B8 /* ProfileViewController.xib */; settings = {ASSET_TAGS = (); }; };
+		59B779761BC7A425003668B8 /* MenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B779741BC7A425003668B8 /* MenuItemCell.swift */; settings = {ASSET_TAGS = (); }; };
+		59B779771BC7A425003668B8 /* MenuItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59B779751BC7A425003668B8 /* MenuItemCell.xib */; settings = {ASSET_TAGS = (); }; };
 		59EC68461BC06190000A1F5A /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC68451BC06190000A1F5A /* Tweet.swift */; settings = {ASSET_TAGS = (); }; };
 		59EC68481BC0619E000A1F5A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC68471BC0619E000A1F5A /* User.swift */; settings = {ASSET_TAGS = (); }; };
 		59EC684C1BC08575000A1F5A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC684A1BC08575000A1F5A /* HomeViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -46,6 +50,10 @@
 		594482131BBD11D200800BFC /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		594482161BBD158500800BFC /* TwitterClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterClient.swift; sourceTree = "<group>"; };
 		594482181BBD164900800BFC /* Twitter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Twitter-Bridging-Header.h"; sourceTree = "<group>"; };
+		59B779701BC7916A003668B8 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		59B779711BC7916A003668B8 /* ProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
+		59B779741BC7A425003668B8 /* MenuItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuItemCell.swift; sourceTree = "<group>"; };
+		59B779751BC7A425003668B8 /* MenuItemCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuItemCell.xib; sourceTree = "<group>"; };
 		59EC68451BC06190000A1F5A /* Tweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 		59EC68471BC0619E000A1F5A /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		59EC684A1BC08575000A1F5A /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -138,6 +146,10 @@
 				59EC68691BC24197000A1F5A /* TweetTapGestureRecognizer.swift */,
 				59EC686B1BC246E7000A1F5A /* TweetDetailsViewController.swift */,
 				59EC686C1BC246E7000A1F5A /* TweetDetailsViewController.xib */,
+				59B779701BC7916A003668B8 /* ProfileViewController.swift */,
+				59B779711BC7916A003668B8 /* ProfileViewController.xib */,
+				59B779741BC7A425003668B8 /* MenuItemCell.swift */,
+				59B779751BC7A425003668B8 /* MenuItemCell.xib */,
 			);
 			path = Twitter;
 			sourceTree = "<group>";
@@ -241,9 +253,11 @@
 				5910F9611BBD0F96001317B6 /* LaunchScreen.storyboard in Resources */,
 				5910F95E1BBD0F96001317B6 /* Assets.xcassets in Resources */,
 				594482151BBD11D200800BFC /* LoginViewController.xib in Resources */,
+				59B779771BC7A425003668B8 /* MenuItemCell.xib in Resources */,
 				59EC68641BC23B28000A1F5A /* retweet_hover.png in Resources */,
 				59EC686E1BC246E7000A1F5A /* TweetDetailsViewController.xib in Resources */,
 				59EC68601BC23628000A1F5A /* retweet.png in Resources */,
+				59B779731BC7916A003668B8 /* ProfileViewController.xib in Resources */,
 				59EC68661BC23E52000A1F5A /* reply_hover.png in Resources */,
 				59EC684D1BC08575000A1F5A /* HomeViewController.xib in Resources */,
 				59EC68581BC1FE13000A1F5A /* favorite.png in Resources */,
@@ -313,8 +327,10 @@
 				5910F9571BBD0F96001317B6 /* AppDelegate.swift in Sources */,
 				59EC685B1BC21D6C000A1F5A /* ComposeViewController.swift in Sources */,
 				59EC68481BC0619E000A1F5A /* User.swift in Sources */,
+				59B779721BC7916A003668B8 /* ProfileViewController.swift in Sources */,
 				59EC68461BC06190000A1F5A /* Tweet.swift in Sources */,
 				59EC686A1BC24197000A1F5A /* TweetTapGestureRecognizer.swift in Sources */,
+				59B779761BC7A425003668B8 /* MenuItemCell.swift in Sources */,
 				59EC684C1BC08575000A1F5A /* HomeViewController.swift in Sources */,
 				59EC68501BC1C3CB000A1F5A /* TweetTableViewCell.swift in Sources */,
 			);
