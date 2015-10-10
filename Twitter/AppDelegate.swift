@@ -18,6 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     // Override point for customization after application launch.
     self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+
+    /*self.window!.rootViewController = MainViewController()
+    self.window!.makeKeyAndVisible()*/
     
     let viewController: UIViewController = LoginViewController()
     let navController: UINavigationController = UINavigationController(rootViewController: viewController)
@@ -36,8 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       // Go to logged in screen
       print("Current user logged in: " + User.currentUser!.name)
       
-      let homeViewController: UIViewController = HomeViewController()
-      navController.pushViewController(homeViewController, animated: true)
+      let mainViewController: UIViewController = MainViewController()
+      navController.pushViewController(mainViewController, animated: true)
     }
     
     return true

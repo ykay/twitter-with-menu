@@ -18,6 +18,10 @@ class User: NSObject {
   var screenname: String = ""
   var profileImageUrl: NSURL?
   var tagline: String = ""
+  var followersCount: Int! = 0
+  var followingCount: Int! = 0
+  var tweetsCount: Int! = 0
+  
   var rawDictionary: [String:AnyObject]?
   
   init(_ data: [String:AnyObject]) {
@@ -34,6 +38,15 @@ class User: NSObject {
     }
     if let value = data["description"] as? String {
       tagline = value
+    }
+    if let value = data["followers_count"] as? Int {
+      followersCount = value
+    }
+    if let value = data["favourites_count"] as? Int {
+      followingCount = value
+    }
+    if let value = data["statuses_count"] as? Int {
+      tweetsCount = value
     }
   }
   

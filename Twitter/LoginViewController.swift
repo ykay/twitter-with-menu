@@ -26,10 +26,10 @@ class LoginViewController: UIViewController {
   @IBAction func onLogin(sender: AnyObject) {
     TwitterClient.sharedInstance.login() { (user: User?, error: NSError?) -> Void in
       if user != nil {
-        let homeViewController = HomeViewController()
+        let mainViewController = MainViewController()
         
         let navController = UIApplication.sharedApplication().windows[0].rootViewController as! UINavigationController
-        navController.pushViewController(homeViewController, animated: true)
+        navController.pushViewController(mainViewController, animated: true)
       } else {
         
       }
