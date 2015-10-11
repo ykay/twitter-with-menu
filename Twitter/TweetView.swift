@@ -101,6 +101,7 @@ class TweetView: UIView {
     
     tweetTextLabel = UILabel()
     tweetTextLabel.font = UIFont.systemFontOfSize(16)
+    tweetTextLabel.numberOfLines = 0
     addSubview(tweetTextLabel)
     
     dateLabel = UILabel()
@@ -173,6 +174,7 @@ class TweetView: UIView {
     
     addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(11)-[profileThumbImageView(65)]-(11)-[nameLabel]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
     addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-(8)-[profileThumbImageView(65)]-(8)-[tweetTextLabel]-(8)-[dateLabel]-(10)-[replyImageView(16)]-(>=8)-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
+    addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[tweetTextLabel]-(>=8)-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
     
     addConstraint(NSLayoutConstraint(item: screennameLabel, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: nameLabel, attribute: NSLayoutAttribute.Leading, multiplier: 1.0, constant: 0))
     

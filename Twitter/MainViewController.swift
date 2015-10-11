@@ -12,7 +12,9 @@ class MainViewController: UIViewController {
   @IBOutlet weak var containerView: UIView!
   @IBOutlet weak var menuTableView: UITableView!
   @IBOutlet weak var menuView: UIView!
+  @IBOutlet weak var menuHeaderView: UIView!
   @IBOutlet weak var menuConstraintWidth: NSLayoutConstraint!
+  @IBOutlet weak var menuConstraintHorizontal: NSLayoutConstraint!
   
   var selectedViewController: UIViewController?
   
@@ -21,9 +23,9 @@ class MainViewController: UIViewController {
     ProfileViewController(),
   ]
   
-  var menuBeginningConstraintWidth: CGFloat!
-  var menuOpenedConstraintWidth: CGFloat!
-  var menuClosedConstraintWidth: CGFloat!
+  var menuBeginningConstraintHorizontal: CGFloat!
+  var menuOpenedConstraintHorizontal: CGFloat!
+  var menuClosedConstraintHorizontal: CGFloat!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -40,8 +42,8 @@ class MainViewController: UIViewController {
     let logoutButton = UIBarButtonItem(title: "Logout", style: .Plain, target: self, action: "onLogout:")
     navigationItem.leftBarButtonItem = logoutButton
     
-    menuOpenedConstraintWidth = 320.0
-    menuClosedConstraintWidth = menuConstraintWidth.constant // about 15
+    menuOpenedConstraintHorizontal = -80.0
+    menuClosedConstraintHorizontal = menuConstraintHorizontal.constant // about -350
     
     menuTableView.delegate = self
     menuTableView.dataSource = self
@@ -95,12 +97,12 @@ class MainViewController: UIViewController {
     
     switch sender.state {
     case .Began:
-      menuBeginningConstraintWidth = menuConstraintWidth.constant
+      menuBeginningConstraintHorizontal = menuConstraintHorizontal.constant
       break
     case .Changed:
       let currentPoint = sender.translationInView(self.view)
       
-      menuConstraintWidth.constant = menuBeginningConstraintWidth + currentPoint.x
+      menuConstraintHorizontal.constant = menuBeginningConstraintHorizontal + currentPoint.x
     case .Cancelled:
       // TODO: Handle cancelled
       break
@@ -109,13 +111,13 @@ class MainViewController: UIViewController {
       if sender.velocityInView(self.view).x > 0 {
         // Moving Right
         UIView.animateWithDuration(0.5, animations: { () -> Void in
-          self.menuConstraintWidth.constant = self.menuOpenedConstraintWidth
+          self.menuConstraintHorizontal.constant = self.menuOpenedConstraintHorizontal
           self.view.layoutIfNeeded()
         })
       } else {
         // Moving Left
         UIView.animateWithDuration(0.5, animations: { () -> Void in
-          self.menuConstraintWidth.constant = self.menuClosedConstraintWidth
+          self.menuConstraintHorizontal.constant = self.menuClosedConstraintHorizontal
           self.view.layoutIfNeeded()
         })
       }
@@ -165,10 +167,10 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     // Switch view
     selectViewController(viewControllers[indexPath.row])
 
-    if menuConstraintWidth.constant == menuOpenedConstraintWidth {
+    if menuConstraintHorizontal.constant == menuOpenedConstraintHorizontal {
       // Moving Left
       UIView.animateWithDuration(1.0, animations: { () -> Void in
-        self.menuConstraintWidth.constant = self.menuClosedConstraintWidth
+        self.menuConstraintHorizontal.constant = self.menuClosedConstraintHorizontal
         self.view.layoutIfNeeded()
       })
     }

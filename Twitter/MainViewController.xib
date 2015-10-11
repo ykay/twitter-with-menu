@@ -7,7 +7,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController" customModule="Twitter" customModuleProvider="target">
             <connections>
                 <outlet property="containerView" destination="oBT-li-yzK" id="Vlu-hA-72a"/>
+                <outlet property="menuConstraintHorizontal" destination="LhA-H5-zKc" id="Bwo-x8-w1r"/>
                 <outlet property="menuConstraintWidth" destination="BQZ-cu-Fhb" id="196-ho-P88"/>
+                <outlet property="menuHeaderView" destination="iMj-Ep-3Ag" id="4Gk-Lo-ch8"/>
                 <outlet property="menuTableView" destination="dZe-ua-V6c" id="4Xt-WM-t5N"/>
                 <outlet property="menuView" destination="YVG-en-vlB" id="gKA-YU-u1N"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -19,21 +21,21 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oBT-li-yzK">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <rect key="frame" x="17" y="0.0" width="583" height="600"/>
                     <color key="backgroundColor" red="0.27450980390000002" green="0.60392156860000001" blue="0.91764705879999997" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
                 <view alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YVG-en-vlB">
-                    <rect key="frame" x="0.0" y="0.0" width="15" height="600"/>
+                    <rect key="frame" x="-210" y="0.0" width="320" height="600"/>
                     <subviews>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dZe-ua-V6c">
-                            <rect key="frame" x="0.0" y="144" width="15" height="456"/>
+                            <rect key="frame" x="0.0" y="250" width="320" height="350"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </tableView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iMj-Ep-3Ag">
-                            <rect key="frame" x="0.0" y="0.0" width="15" height="144"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="144" id="hjT-gJ-1O6"/>
+                                <constraint firstAttribute="height" constant="250" id="hjT-gJ-1O6"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -42,29 +44,23 @@
                         <constraint firstItem="iMj-Ep-3Ag" firstAttribute="top" secondItem="YVG-en-vlB" secondAttribute="top" id="7qW-Xf-WlX"/>
                         <constraint firstItem="dZe-ua-V6c" firstAttribute="top" secondItem="iMj-Ep-3Ag" secondAttribute="bottom" id="9IS-9a-Gz2"/>
                         <constraint firstItem="iMj-Ep-3Ag" firstAttribute="leading" secondItem="YVG-en-vlB" secondAttribute="leading" id="A9W-jJ-9dp"/>
-                        <constraint firstAttribute="width" constant="15" id="BQZ-cu-Fhb"/>
+                        <constraint firstAttribute="width" constant="320" id="BQZ-cu-Fhb"/>
                         <constraint firstAttribute="trailing" secondItem="dZe-ua-V6c" secondAttribute="trailing" id="CsS-An-puM"/>
-                        <constraint firstItem="dZe-ua-V6c" firstAttribute="top" secondItem="YVG-en-vlB" secondAttribute="top" id="Cyd-We-gvp"/>
                         <constraint firstAttribute="trailing" secondItem="iMj-Ep-3Ag" secondAttribute="trailing" id="fBo-do-nLs"/>
                         <constraint firstItem="dZe-ua-V6c" firstAttribute="leading" secondItem="YVG-en-vlB" secondAttribute="leading" id="jih-oU-ROA"/>
                         <constraint firstAttribute="bottom" secondItem="dZe-ua-V6c" secondAttribute="bottom" id="o2e-pa-weR"/>
                     </constraints>
-                    <variation key="default">
-                        <mask key="constraints">
-                            <exclude reference="Cyd-We-gvp"/>
-                        </mask>
-                    </variation>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="oBT-li-yzK" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="5zL-DX-vZp"/>
+                <constraint firstItem="oBT-li-yzK" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="17" id="5zL-DX-vZp"/>
                 <constraint firstAttribute="bottom" secondItem="oBT-li-yzK" secondAttribute="bottom" id="AWz-2b-r9r"/>
+                <constraint firstItem="YVG-en-vlB" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" constant="-350" id="LhA-H5-zKc"/>
                 <constraint firstAttribute="trailing" secondItem="oBT-li-yzK" secondAttribute="trailing" id="abu-7A-DgI"/>
                 <constraint firstItem="oBT-li-yzK" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="bk9-fU-AC2"/>
                 <constraint firstAttribute="bottom" secondItem="YVG-en-vlB" secondAttribute="bottom" id="cd9-zt-2Gp"/>
                 <constraint firstAttribute="trailing" secondItem="oBT-li-yzK" secondAttribute="trailing" id="qEa-UI-SwJ"/>
-                <constraint firstItem="YVG-en-vlB" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="w1G-xb-Bdo"/>
                 <constraint firstItem="YVG-en-vlB" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="yKX-Hr-Gly"/>
             </constraints>
         </view>

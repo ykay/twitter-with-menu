@@ -35,7 +35,6 @@
 		59EC68641BC23B28000A1F5A /* retweet_hover.png in Resources */ = {isa = PBXBuildFile; fileRef = 59EC68631BC23B28000A1F5A /* retweet_hover.png */; settings = {ASSET_TAGS = (); }; };
 		59EC68661BC23E52000A1F5A /* reply_hover.png in Resources */ = {isa = PBXBuildFile; fileRef = 59EC68651BC23E52000A1F5A /* reply_hover.png */; settings = {ASSET_TAGS = (); }; };
 		59EC68681BC23E59000A1F5A /* favorite_hover.png in Resources */ = {isa = PBXBuildFile; fileRef = 59EC68671BC23E59000A1F5A /* favorite_hover.png */; settings = {ASSET_TAGS = (); }; };
-		59EC686A1BC24197000A1F5A /* TweetTapGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC68691BC24197000A1F5A /* TweetTapGestureRecognizer.swift */; settings = {ASSET_TAGS = (); }; };
 		59EC686D1BC246E7000A1F5A /* TweetDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC686B1BC246E7000A1F5A /* TweetDetailsViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		59EC686E1BC246E7000A1F5A /* TweetDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59EC686C1BC246E7000A1F5A /* TweetDetailsViewController.xib */; settings = {ASSET_TAGS = (); }; };
 		59F316FF1BC9E8BB00487B87 /* TweetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F316FE1BC9E8BB00487B87 /* TweetView.swift */; settings = {ASSET_TAGS = (); }; };
@@ -75,7 +74,6 @@
 		59EC68631BC23B28000A1F5A /* retweet_hover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = retweet_hover.png; path = Images/retweet_hover.png; sourceTree = "<group>"; };
 		59EC68651BC23E52000A1F5A /* reply_hover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = reply_hover.png; path = Images/reply_hover.png; sourceTree = "<group>"; };
 		59EC68671BC23E59000A1F5A /* favorite_hover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = favorite_hover.png; path = Images/favorite_hover.png; sourceTree = "<group>"; };
-		59EC68691BC24197000A1F5A /* TweetTapGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetTapGestureRecognizer.swift; sourceTree = "<group>"; };
 		59EC686B1BC246E7000A1F5A /* TweetDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetDetailsViewController.swift; sourceTree = "<group>"; };
 		59EC686C1BC246E7000A1F5A /* TweetDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TweetDetailsViewController.xib; sourceTree = "<group>"; };
 		59F316FE1BC9E8BB00487B87 /* TweetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetView.swift; sourceTree = "<group>"; };
@@ -150,7 +148,6 @@
 				59EC684F1BC1C3CB000A1F5A /* TweetTableViewCell.xib */,
 				59EC68591BC21D6C000A1F5A /* ComposeViewController.swift */,
 				59EC685A1BC21D6C000A1F5A /* ComposeViewController.xib */,
-				59EC68691BC24197000A1F5A /* TweetTapGestureRecognizer.swift */,
 				59EC686B1BC246E7000A1F5A /* TweetDetailsViewController.swift */,
 				59EC686C1BC246E7000A1F5A /* TweetDetailsViewController.xib */,
 				59B779701BC7916A003668B8 /* ProfileViewController.swift */,
@@ -349,7 +346,6 @@
 				59B779721BC7916A003668B8 /* ProfileViewController.swift in Sources */,
 				59F316FF1BC9E8BB00487B87 /* TweetView.swift in Sources */,
 				59EC68461BC06190000A1F5A /* Tweet.swift in Sources */,
-				59EC686A1BC24197000A1F5A /* TweetTapGestureRecognizer.swift in Sources */,
 				59B779761BC7A425003668B8 /* MenuItemCell.swift in Sources */,
 				59EC684C1BC08575000A1F5A /* HomeViewController.swift in Sources */,
 				59EC68501BC1C3CB000A1F5A /* TweetTableViewCell.swift in Sources */,
