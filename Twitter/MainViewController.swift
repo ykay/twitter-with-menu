@@ -67,6 +67,11 @@ class MainViewController: UIViewController {
     chevronImageView.image = UIImage(named: "chevron-25")
     chevronImageView.alpha = chevronAlpha
     
+    containerView.layer.shadowOffset = CGSizeMake(2.0, 2.0)
+    containerView.layer.shadowOpacity = 0.3
+    containerView.layer.shadowColor = UIColor.darkGrayColor().CGColor
+    containerView.layer.shadowRadius = 5.0
+    
     // So text box doesn't extend beyond navigation bar
     self.edgesForExtendedLayout = UIRectEdge.None
   }
@@ -78,7 +83,8 @@ class MainViewController: UIViewController {
       menuView.layer.shadowColor = UIColor.darkGrayColor().CGColor
       menuView.layer.shadowRadius = 10.0
     } else {
-      menuView.layer.shadowRadius = 0.0
+      menuView.layer.shadowRadius = 5.0
+      menuView.layer.shadowOpacity = 0.3
     }
   }
   

@@ -62,7 +62,7 @@ class ProfileViewController: UIViewController {
       profileImageView.setImageWithURL(user.profileImageUrl)
       profileImageView.layer.cornerRadius = 10.0
       profileImageView.layer.masksToBounds = true
-      profileImageView.layer.borderWidth = 2.0
+      profileImageView.layer.borderWidth = 4.0
       profileImageView.layer.borderColor = UIColor.whiteColor().CGColor
       
       let parameters: [String:AnyObject] = [
