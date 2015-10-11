@@ -8,17 +8,8 @@
 
 import UIKit
 
-class TweetDetailsViewController: UIViewController {
-  @IBOutlet weak var profileThumbImageView: UIImageView!  
-  @IBOutlet weak var nameLabel: UILabel!
-  @IBOutlet weak var screennameLabel: UILabel!
-  @IBOutlet weak var tweetTextLabel: UILabel!
-  @IBOutlet weak var dateLabel: UILabel!
-  @IBOutlet weak var favoriteImageView: UIImageView!
-  @IBOutlet weak var favoriteLabel: UILabel!
-  @IBOutlet weak var replyImageView: UIImageView!
-  @IBOutlet weak var retweetImageView: UIImageView!
-  
+class TweetDetailsViewController: UIViewController {  
+  var tweetView: TweetView!
   var tweet: Tweet!
   
   override func viewDidLoad() {
@@ -30,7 +21,19 @@ class TweetDetailsViewController: UIViewController {
     // So text box doesn't extend beyond navigation bar
     self.edgesForExtendedLayout = UIRectEdge.None
     
-    reload()
+    tweetView = TweetView()
+    tweetView.tweet = tweet
+    tweetView.replyActionHandler = { (tweetId: String, tweetUserScreenname: String) -> Void in
+      
+      print("Replying to tweet id: \(tweetId)")
+      print("Replying to screenname: \(tweetUserScreenname)")
+      let composeViewController = ComposeViewController(inReplyToStatusId: tweetId, inReplyToScreenname: tweetUserScreenname)
+      
+      self.navigationController?.pushViewController(composeViewController, animated: true)
+    }
+    view.addSubview(tweetView)
+    
+    setupConstraints()
   }
   
   override func didReceiveMemoryWarning() {
@@ -38,112 +41,21 @@ class TweetDetailsViewController: UIViewController {
     // Dispose of any resources that can be recreated.
   }
   
-  func reload() {
-    nameLabel.text = tweet.user!.name
-    screennameLabel.text = "@\(tweet.user!.screenname)"
-    tweetTextLabel.text = tweet.text
-    dateLabel.text = tweet.createdAt?.description
-    profileThumbImageView.setImageWithURL(tweet.user!.profileImageUrl)
+  // NOTE: The tweet view needs to be a subview of the main view so that it gets constrained within the area under the navigation bar.
+  // If the tweet view is made into the main view, then it will extend beyond the nav bar and hide behind it.
+  func setupConstraints() {
+    tweetView.translatesAutoresizingMaskIntoConstraints = false
     
-    // Make favorite image tap-able.
-    let favoriteTap = UITapGestureRecognizer(target: self, action: "onFavoriteTap")
-    favoriteTap.numberOfTapsRequired = 1
-    favoriteImageView.userInteractionEnabled = true
-    favoriteImageView.addGestureRecognizer(favoriteTap)
+    let views = [
+      "tweetView": tweetView,
+    ]
     
-    if tweet.favorited {
-      favoriteImageView.image = UIImage(named: "favorite_on.png")
-      favoriteLabel.textColor = UIColor(red:0.99, green:0.61, blue:0.16, alpha:1.0)
-    } else {
-      favoriteImageView.image = UIImage(named: "favorite_hover.png")
-      favoriteLabel.textColor = UIColor.lightGrayColor()
-    }
-    
-    favoriteLabel.text = "\(tweet.favoriteCount)"
-    
-    let retweetTap = UITapGestureRecognizer(target: self, action: "onRetweetTap")
-    retweetTap.numberOfTapsRequired = 1
-    // Disable if it's already been retweeted
-    retweetImageView.userInteractionEnabled = true
-    retweetImageView.addGestureRecognizer(retweetTap)
-    
-    if tweet.user!.name == User.currentUser!.name {
-      retweetImageView.image = UIImage(named: "retweet.png")
-    } else {
-      if tweet.retweeted {
-        retweetImageView.image = UIImage(named: "retweet_on.png")
-      } else {
-        retweetImageView.image = UIImage(named: "retweet_hover.png")
-      }
-    }
-    
-    let replyTap = TweetTapGestureRecognizer(target: self, action: "onReplyTap:")
-    replyTap.numberOfTapsRequired = 1
-    // Add tap handler for cell here, since we need to push a view controller from here.
-    replyImageView.userInteractionEnabled = true
-    replyImageView.addGestureRecognizer(replyTap)
-    replyImageView.image = UIImage(named: "reply_hover.png")
+    self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[tweetView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
+    self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[tweetView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
   }
-  
+
   func onCancel() {
     navigationController?.popViewControllerAnimated(true)
   }
-  
-  func onReplyTap(sender: AnyObject!) {
-    let tweetTap = sender as! TweetTapGestureRecognizer
-    
-    print("Replying to tweet id: \(tweetTap.id)")
-    print("Replying to screenname: \(tweetTap.screenname)")
-    let composeViewController = ComposeViewController(inReplyToStatusId: tweet.id, inReplyToScreenname: tweet.user!.screenname)
-    
-    navigationController?.pushViewController(composeViewController, animated: true)
-  }
-  
-  func onRetweetTap() {
-    // Only retweet if not own tweet
-    if tweet.user!.name != User.currentUser!.name {
-      
-      // Only allow retweeting if it hasn't been retweeted yet.
-      if !tweet.retweeted {
-        TwitterClient.sharedInstance.retweet(tweet.id) { (data: [String:AnyObject]?, error: NSError?) -> Void in
-          
-          self.retweetImageView.image = UIImage(named: "retweet_on.png")
-        }
-      }
-    } else {
-      print("Can't retweet own tweet")
-    }
-  }
-  
-  func onFavoriteTap() {
-    
-    if tweet.favorited {
-      TwitterClient.sharedInstance.unfavorite(tweet.id) { (data: [String:AnyObject]?, error: NSError?) -> Void in
-        
-        if let data = data {
-          self.tweet = Tweet(data)
-          self.reload()
-        }
-      }
-    } else {
-      TwitterClient.sharedInstance.favorite(tweet.id) { (data: [String:AnyObject]?, error: NSError?) -> Void in
-        
-        if let data = data {
-          self.tweet = Tweet(data)
-          self.reload()
-        }
-      }
-    }
-  }
-  
-  /*
-  // MARK: - Navigation
-  
-  // In a storyboard-based application, you will often want to do a little preparation before navigation
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-  // Get the new view controller using segue.destinationViewController.
-  // Pass the selected object to the new view controller.
-  }
-  */
-  
+
 }

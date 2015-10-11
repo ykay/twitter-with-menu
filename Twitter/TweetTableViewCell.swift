@@ -9,58 +9,14 @@
 import UIKit
 
 class TweetTableViewCell: UITableViewCell {
-  @IBOutlet weak var nameLabel: UILabel!
-  @IBOutlet weak var screennameLabel: UILabel!
-  @IBOutlet weak var tweetTextLabel: UILabel!
-  @IBOutlet weak var dateLabel: UILabel!
-  @IBOutlet weak var profileThumbImageView: UIImageView!
-  @IBOutlet weak var favoriteImageView: UIImageView!
-  @IBOutlet weak var favoriteLabel: UILabel!
-  @IBOutlet weak var replyImageView: UIImageView!
-  @IBOutlet weak var retweetImageView: UIImageView!
 
+  var replyActionHandler: ((tweetId: String, tweetUserScreenname: String) -> ())?
+  
+  private var tweetView: TweetView!
+  
   var tweet: Tweet! {
     didSet {
-      nameLabel.text = tweet.user!.name
-      screennameLabel.text = "@\(tweet.user!.screenname)"
-      tweetTextLabel.text = tweet.text
-      dateLabel.text = tweet.createdAt?.description
-      profileThumbImageView.setImageWithURL(tweet.user!.profileImageUrl)
-      
-      if tweet.favorited {
-        favoriteImageView.image = UIImage(named: "favorite_on.png")
-        favoriteLabel.textColor = UIColor(red:0.99, green:0.61, blue:0.16, alpha:1.0)
-      } else {
-        favoriteImageView.image = UIImage(named: "favorite_hover.png")
-        favoriteLabel.textColor = UIColor.lightGrayColor()
-      }
-      
-      favoriteLabel.text = "\(tweet.favoriteCount)"
-      
-      if tweet.user!.name == User.currentUser!.name {
-        retweetImageView.image = UIImage(named: "retweet.png")
-      } else {
-        if tweet.retweeted {
-          retweetImageView.image = UIImage(named: "retweet_on.png")
-        } else {
-          retweetImageView.image = UIImage(named: "retweet_hover.png")
-        }
-      }
-      
-      /* Fade in code
-      profileThumbImageView.setImageWithURLRequest(NSURLRequest(URL: tweet.user!.profileImageUrl!), placeholderImage: nil,
-        success: { (request: NSURLRequest!, response: NSHTTPURLResponse!, image: UIImage!) -> Void in
-          let retrievedImage = image
-          UIView.transitionWithView(self.profileThumbImageView, duration: 2.0, options: UIViewAnimationOptions.TransitionCrossDissolve,
-            animations: { () -> Void in
-              self.profileThumbImageView.image = retrievedImage
-            },
-            completion: nil)
-          
-        },
-        failure: { (request: NSURLRequest!, response: NSHTTPURLResponse!, error: NSError!) -> Void in
-          
-        })*/
+      tweetView.tweet = tweet
     }
   }
   
@@ -68,63 +24,34 @@ class TweetTableViewCell: UITableViewCell {
     super.awakeFromNib()
     
     // Initialization code
-    profileThumbImageView.layer.cornerRadius = 10.0
-    profileThumbImageView.clipsToBounds = true
-
-    replyImageView.image = UIImage(named: "reply_hover.png")
-    
-    let retweetTap = UITapGestureRecognizer(target: self, action: "onRetweetTap")
-    retweetTap.numberOfTapsRequired = 1
-    // Disable if it's already been retweeted
-    retweetImageView.userInteractionEnabled = true
-    retweetImageView.addGestureRecognizer(retweetTap)
-    
-    // Make favorite image tap-able.
-    let favoriteTap = UITapGestureRecognizer(target: self, action: "onFavoriteTap")
-    favoriteTap.numberOfTapsRequired = 1
-    favoriteImageView.userInteractionEnabled = true
-    favoriteImageView.addGestureRecognizer(favoriteTap)
-  }
-  
-  func onRetweetTap() {
-    // Only retweet if not own tweet
-    if tweet.user!.name != User.currentUser!.name {
+    tweetView = TweetView()
+    tweetView.replyActionHandler = { (tweetId: String, tweetUserScreenname: String) -> Void in
       
-      // Only allow retweeting if it hasn't been retweeted yet.
-      if !tweet.retweeted {
-        TwitterClient.sharedInstance.retweet(tweet.id) { (data: [String:AnyObject]?, error: NSError?) -> Void in
-          
-          self.retweetImageView.image = UIImage(named: "retweet_on.png")
-        }
-      }
-    } else {
-      print("Can't retweet own tweet")
+      print("Replying to tweet id: \(tweetId)")
+      print("Replying to screenname: \(tweetUserScreenname)")
+      self.onReplyTap(tweetId, tweetScreenname: tweetUserScreenname)
+    }
+    contentView.addSubview(tweetView)
+    
+    setupConstraints()
+  }
+  
+  func setupConstraints() {
+    tweetView.translatesAutoresizingMaskIntoConstraints = false
+    
+    let views = [
+      "tweetView": tweetView,
+    ]
+    
+    self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[tweetView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
+    self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[tweetView(>=140)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
+  }
+ 
+  func onReplyTap(tweetId: String, tweetScreenname: String) {
+    if let replyActionHandler = self.replyActionHandler {
+      replyActionHandler(tweetId: tweet.id, tweetUserScreenname: tweet.user!.screenname)
     }
   }
   
-  func onFavoriteTap() {
-    
-    if tweet.favorited {
-      TwitterClient.sharedInstance.unfavorite(tweet.id) { (data: [String:AnyObject]?, error: NSError?) -> Void in
-        
-        if let data = data {
-          self.tweet = Tweet(data)
-        }
-      }
-    } else {
-      TwitterClient.sharedInstance.favorite(tweet.id) { (data: [String:AnyObject]?, error: NSError?) -> Void in
-        
-        if let data = data {
-          self.tweet = Tweet(data)
-        }
-      }
-    }
-  }
-  
-  override func setSelected(selected: Bool, animated: Bool) {
-    super.setSelected(selected, animated: animated)
-    
-    // Configure the view for the selected state
-  }
   
 }

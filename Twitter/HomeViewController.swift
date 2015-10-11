@@ -68,12 +68,11 @@ class HomeViewController: UIViewController {
     refreshControl.endRefreshing()
   }
   
-  func onReplyTap(sender: AnyObject!) {
-    let tweetTap = sender as! TweetTapGestureRecognizer
+  func onReplyTap(tweetId: String, tweetUserScreenname: String) {
     
-    print("Replying to tweet id: \(tweetTap.id)")
-    print("Replying to screenname: \(tweetTap.screenname)")
-    let composeViewController = ComposeViewController(inReplyToStatusId: tweetTap.id, inReplyToScreenname: tweetTap.screenname)
+    print("Replying to tweet id: \(tweetId)")
+    print("Replying to screenname: \(tweetUserScreenname)")
+    let composeViewController = ComposeViewController(inReplyToStatusId: tweetId, inReplyToScreenname: tweetUserScreenname)
     
     navigationController?.pushViewController(composeViewController, animated: true)
   }
@@ -104,15 +103,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     let cell = tableView.dequeueReusableCellWithIdentifier("TweetTableViewCell", forIndexPath: indexPath) as! TweetTableViewCell
     
     cell.tweet = tweets[indexPath.row]
-    
-    let replyTap = TweetTapGestureRecognizer(target: self, action: "onReplyTap:")
-    replyTap.numberOfTapsRequired = 1
-    replyTap.id = tweets[indexPath.row].id
-    replyTap.screenname = tweets[indexPath.row].user!.screenname
-    
-    // Add tap handler for cell here, since we need to push a view controller from here.
-    cell.replyImageView.userInteractionEnabled = true
-    cell.replyImageView.addGestureRecognizer(replyTap)
+    cell.replyActionHandler = { (tweetId: String, tweetUserScreenname: String) -> Void in
+      self.onReplyTap(tweetId, tweetUserScreenname: tweetUserScreenname)
+    }
     
     return cell
   }

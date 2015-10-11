@@ -139,12 +139,8 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UIGestureRecognizerDelegate {
   
+  // Required for menuView to respond to pan gesture
   func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-    print ("Got callback")
-    
-    if touch.isKindOfClass(UIView) {
-      return true
-    }
     
     return true
   }

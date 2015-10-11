@@ -27,6 +27,8 @@ class ProfileViewController: UIViewController {
     tweetsCountLabel.text = "\(User.currentUser!.tweetsCount)"
     followersCountLabel.text = "\(User.currentUser!.followersCount)"
     followingCountLabel.text = "\(User.currentUser!.followingCount)"
+    profileBackgroundImageView.setImageWithURL(User.currentUser!.profileBannerUrl)
+    profileImageView.setImageWithURL(User.currentUser!.profileImageUrl)
   }
   
   override func didReceiveMemoryWarning() {

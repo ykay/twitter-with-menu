@@ -17,6 +17,7 @@ class User: NSObject {
   var name: String = ""
   var screenname: String = ""
   var profileImageUrl: NSURL?
+  var profileBannerUrl: NSURL?
   var tagline: String = ""
   var followersCount: Int! = 0
   var followingCount: Int! = 0
@@ -47,6 +48,9 @@ class User: NSObject {
     }
     if let value = data["statuses_count"] as? Int {
       tweetsCount = value
+    }
+    if let value = data["profile_banner_url"] as? String {
+      profileBannerUrl = NSURL(string: value)
     }
   }
   

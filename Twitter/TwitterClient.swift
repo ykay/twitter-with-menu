@@ -61,6 +61,18 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
     })
   }
   
+  func userTimelineWithParams(params: [String:AnyObject]?, completion: (tweets: [Tweet]?, error: NSError?) -> Void) {
+    GET("1.1/statuses/user_timeline.json", parameters: nil,
+      success: { (request: AFHTTPRequestOperation!, data: AnyObject!) -> Void in
+        
+        completion(tweets: Tweet.tweetsWithArray(data as! [AnyObject]), error: nil)
+        
+      },
+      failure: { (request: AFHTTPRequestOperation!, error: NSError!) -> Void in
+        completion(tweets: nil, error: error)
+    })
+  }
+  
   func favorite(id: String, completion: (data: [String:AnyObject]?, error: NSError?) -> Void) {
     let params = [ "id":id ]
     
