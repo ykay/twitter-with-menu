@@ -14,19 +14,28 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pz8-FF-I6j">
-                        <rect key="frame" x="137" y="11.5" width="46" height="20.5"/>
+                        <rect key="frame" x="39" y="12" width="46" height="20.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wwj-EK-yCt">
+                        <rect key="frame" x="15" y="14" width="16" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="16" id="6wp-VB-UmY"/>
+                            <constraint firstAttribute="width" constant="16" id="wQ8-dq-Uuz"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="pz8-FF-I6j" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="KtE-th-8oE"/>
-                    <constraint firstItem="pz8-FF-I6j" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="zEZ-xT-Ux8"/>
+                    <constraint firstItem="Wwj-EK-yCt" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="0la-3g-pBE"/>
+                    <constraint firstItem="pz8-FF-I6j" firstAttribute="leading" secondItem="Wwj-EK-yCt" secondAttribute="trailing" constant="8" id="8DI-e1-Lsb"/>
+                    <constraint firstItem="pz8-FF-I6j" firstAttribute="centerY" secondItem="Wwj-EK-yCt" secondAttribute="centerY" id="jEF-17-JoP"/>
+                    <constraint firstItem="Wwj-EK-yCt" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="ljz-SQ-AlP"/>
                 </constraints>
             </tableViewCellContentView>
-            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
+                <outlet property="iconImageView" destination="Wwj-EK-yCt" id="iTm-zN-CJ8"/>
                 <outlet property="nameLabel" destination="pz8-FF-I6j" id="WrH-wR-Baf"/>
             </connections>
         </tableViewCell>

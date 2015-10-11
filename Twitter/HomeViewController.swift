@@ -13,7 +13,31 @@ class HomeViewController: UIViewController {
   
   var tweets = [Tweet]()
   var refreshControl: UIRefreshControl!
-  var needsRefresh = false  
+  var needsRefresh = false
+  var mentionsOnly = false
+  
+  required init?(_ coder: NSCoder?, mentionsOnly: Bool) {
+    
+    if let coder = coder {
+      super.init(coder: coder)
+    } else {
+      super.init(nibName: nil, bundle: nil)
+    }
+    
+    self.mentionsOnly = mentionsOnly
+  }
+  
+  convenience init() {
+    self.init(nil, mentionsOnly: false)!
+  }
+  
+  convenience init(mentionsOnly: Bool) {
+    self.init(nil, mentionsOnly: mentionsOnly)!
+  }
+  
+  required convenience init?(coder: NSCoder) {
+    self.init(coder, mentionsOnly: false)
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -44,21 +68,26 @@ class HomeViewController: UIViewController {
     needsRefresh = false
   }
   
-  func fetchTweets() {
-    // TODO: Pass parameters
-    TwitterClient.sharedInstance.homeTimelineWithParams(nil) { (tweets: [Tweet]?, error: NSError?) -> Void in
-      if error == nil {
-        
-        self.tweets = tweets!
-        self.tableView.reloadData()
-        
-        for tweet in tweets! {
-          //print(tweet.rawDictionary!)
-        }
-        
-      } else {
-        print("Failed to get tweet data")
+  func onReceivedTweets(tweets: [Tweet]?, error: NSError?) {
+    if error == nil {
+      
+      self.tweets = tweets!
+      self.tableView.reloadData()
+      
+      for tweet in tweets! {
+        //print(tweet.rawDictionary!)
       }
+      
+    } else {
+      print("Failed to get tweet data")
+    }
+  }
+
+  func fetchTweets() {
+    if mentionsOnly {
+      TwitterClient.sharedInstance.mentionsTimelineWithParams(nil, completion: onReceivedTweets)
+    } else {
+      TwitterClient.sharedInstance.homeTimelineWithParams(nil, completion: onReceivedTweets)
     }
   }
 
