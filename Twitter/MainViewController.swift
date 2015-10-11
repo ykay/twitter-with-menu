@@ -22,11 +22,6 @@ class MainViewController: UIViewController {
   
   var selectedViewController: UIViewController?
   
-  var viewControllers: [UIViewController] = [
-    HomeViewController(),
-    ProfileViewController(),
-  ]
-  
   var menuBeginningConstraintLeading: CGFloat!
   var menuOpenedConstraintLeading: CGFloat!
   var menuClosedConstraintLeading: CGFloat!
@@ -34,13 +29,10 @@ class MainViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.selectViewController(viewControllers[0])
+    self.selectViewController(HomeViewController())
     
     // Do any additional setup after loading the view.
-    if let user = User.currentUser {
-      navigationItem.title = "@" + user.screenname
-    }
-    
+    navigationItem.title = "Home"
     navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: UIBarButtonItemStyle.Plain, target: self, action: "onCompose")
     
     let logoutButton = UIBarButtonItem(title: "Logout", style: .Plain, target: self, action: "onLogout:")
@@ -177,7 +169,13 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     tableView.deselectRowAtIndexPath(indexPath, animated: false)
 
     // Switch view
-    selectViewController(viewControllers[indexPath.row])
+    if indexPath.row == 0 {
+      selectViewController(HomeViewController())
+    } else if indexPath.row == 1 {
+      selectViewController(ProfileViewController(user: User.currentUser!))
+    } else if indexPath.row == 2 {
+      // TODO: Show 'Mentions'
+    }
 
     if menuConstraintLeading.constant == menuOpenedConstraintLeading {
       // Moving Left

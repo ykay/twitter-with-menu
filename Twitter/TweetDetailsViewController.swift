@@ -31,6 +31,12 @@ class TweetDetailsViewController: UIViewController {
       
       self.navigationController?.pushViewController(composeViewController, animated: true)
     }
+    tweetView.userProfileShowHandler = { (user: User) -> Void in
+      
+      let profileViewController = ProfileViewController(user: user)
+      
+      self.navigationController?.pushViewController(profileViewController, animated: true)
+    }
     view.addSubview(tweetView)
     
     setupConstraints()

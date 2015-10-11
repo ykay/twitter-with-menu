@@ -50,7 +50,7 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
   }
   
   func homeTimelineWithParams(params: [String:AnyObject]?, completion: (tweets: [Tweet]?, error: NSError?) -> Void) {
-    GET("1.1/statuses/home_timeline.json", parameters: nil,
+    GET("1.1/statuses/home_timeline.json", parameters: params,
       success: { (request: AFHTTPRequestOperation!, data: AnyObject!) -> Void in
         
         completion(tweets: Tweet.tweetsWithArray(data as! [AnyObject]), error: nil)
@@ -62,7 +62,7 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
   }
   
   func userTimelineWithParams(params: [String:AnyObject]?, completion: (tweets: [Tweet]?, error: NSError?) -> Void) {
-    GET("1.1/statuses/user_timeline.json", parameters: nil,
+    GET("1.1/statuses/user_timeline.json", parameters: params,
       success: { (request: AFHTTPRequestOperation!, data: AnyObject!) -> Void in
         
         completion(tweets: Tweet.tweetsWithArray(data as! [AnyObject]), error: nil)

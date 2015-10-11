@@ -20,6 +20,7 @@ class TweetView: UIView {
   var replyImageView: UIImageView!
   
   var replyActionHandler: ((tweetId: String, tweetUserScreenname: String) -> ())?
+  var userProfileShowHandler: ((user: User) -> ())?
   
   var tweet: Tweet! {
     didSet {
@@ -130,10 +131,13 @@ class TweetView: UIView {
     // Other initialization steps
     profileThumbImageView.layer.cornerRadius = 10.0
     profileThumbImageView.clipsToBounds = true
+    let userProfileTap = UITapGestureRecognizer(target: self, action: "onUserProfileTap")
+    userProfileTap.numberOfTapsRequired = 1
+    profileThumbImageView.userInteractionEnabled = true
+    profileThumbImageView.addGestureRecognizer(userProfileTap)
     
     let retweetTap = UITapGestureRecognizer(target: self, action: "onRetweetTap")
     retweetTap.numberOfTapsRequired = 1
-    // Disable if it's already been retweeted
     retweetImageView.userInteractionEnabled = true
     retweetImageView.addGestureRecognizer(retweetTap)
     
@@ -232,5 +236,11 @@ class TweetView: UIView {
     if let replyActionHandler = self.replyActionHandler {
       replyActionHandler(tweetId: tweet.id, tweetUserScreenname: tweet.user!.screenname)
     }
-  }  
+  }
+  
+  func onUserProfileTap() {
+    if let userProfileShowHandler = self.userProfileShowHandler {
+      userProfileShowHandler(user: tweet.user!)
+    }
+  }
 }

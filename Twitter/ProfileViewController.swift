@@ -19,19 +19,32 @@ class ProfileViewController: UIViewController {
   @IBOutlet weak var timelineTableView: UITableView!
   
   var tweets = [Tweet]()
+  var user: User?
+  
+  required init?(_ coder: NSCoder?, user: User?) {
+    
+    if let coder = coder {
+      super.init(coder: coder)
+    } else {
+      super.init(nibName: nil, bundle: nil)
+    }
+
+    self.user = user
+  }
+  
+  convenience init(user: User) {
+    self.init(nil, user: user)!
+  }
+ 
+  required convenience init?(coder: NSCoder) {
+    self.init(coder, user: nil)
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
     // Do any additional setup after loading the view.
-    nameLabel.text = User.currentUser!.name
-    screennameLabel.text = "@" + User.currentUser!.screenname
-    tweetsCountLabel.text = "\(User.currentUser!.tweetsCount)"
-    followersCountLabel.text = "\(User.currentUser!.followersCount)"
-    followingCountLabel.text = "\(User.currentUser!.followingCount)"
-    profileBackgroundImageView.setImageWithURL(User.currentUser!.profileBannerUrl)
-    profileImageView.setImageWithURL(User.currentUser!.profileImageUrl)
-    profileImageView.layer.cornerRadius = 10.0
+    self.edgesForExtendedLayout = UIRectEdge.None
     
     timelineTableView.delegate = self
     timelineTableView.dataSource = self
@@ -39,13 +52,32 @@ class ProfileViewController: UIViewController {
     timelineTableView.rowHeight = UITableViewAutomaticDimension
     timelineTableView.estimatedRowHeight = 140
     
-    TwitterClient.sharedInstance.userTimelineWithParams(nil) { (tweets, error) -> Void in
-      if error == nil {
-        if let tweets = tweets {
-          self.tweets = tweets
-          self.timelineTableView.reloadData()
+    if let user = user {
+      nameLabel.text = user.name
+      screennameLabel.text = "@" + user.screenname
+      tweetsCountLabel.text = "\(user.tweetsCount)"
+      followersCountLabel.text = "\(user.followersCount)"
+      followingCountLabel.text = "\(user.followingCount)"
+      profileBackgroundImageView.setImageWithURL(user.profileBannerUrl)
+      profileImageView.setImageWithURL(user.profileImageUrl)
+      profileImageView.layer.cornerRadius = 10.0
+      profileImageView.layer.masksToBounds = true
+      profileImageView.layer.borderWidth = 2.0
+      profileImageView.layer.borderColor = UIColor.whiteColor().CGColor
+      
+      let parameters: [String:AnyObject] = [
+        "screen_name":user.screenname
+      ]
+      
+      TwitterClient.sharedInstance.userTimelineWithParams(parameters) { (tweets, error) -> Void in
+        if error == nil {
+          if let tweets = tweets {
+            self.tweets = tweets
+            self.timelineTableView.reloadData()
+          }
         }
       }
+      
     }
   }
   
@@ -55,7 +87,15 @@ class ProfileViewController: UIViewController {
   }
   
   func onReplyTap(tweetId: String, tweetUserScreenname: String) {
+    let composeViewController = ComposeViewController(inReplyToStatusId: tweetId, inReplyToScreenname: tweetUserScreenname)
     
+    navigationController?.pushViewController(composeViewController, animated: true)
+  }
+  
+  func onUserProfileTap(user: User) {
+    let profileViewController = ProfileViewController(user: user)
+    
+    navigationController?.pushViewController(profileViewController, animated: true)
   }
   
   /*
@@ -74,12 +114,16 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return tweets.count
   }
+  
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let cell = timelineTableView.dequeueReusableCellWithIdentifier("TweetTableViewCell", forIndexPath: indexPath) as! TweetTableViewCell
     
     cell.tweet = tweets[indexPath.row]
     cell.replyActionHandler = { (tweetId: String, tweetUserScreenname: String) -> Void in
       self.onReplyTap(tweetId, tweetUserScreenname: tweetUserScreenname)
+    }
+    cell.userProfileShowHandler = { (user: User) -> Void in
+      self.onUserProfileTap(user)
     }
     
     return cell

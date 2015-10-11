@@ -11,6 +11,7 @@ import UIKit
 class TweetTableViewCell: UITableViewCell {
 
   var replyActionHandler: ((tweetId: String, tweetUserScreenname: String) -> ())?
+  var userProfileShowHandler: ((user: User) -> ())?
   
   private var tweetView: TweetView!
   
@@ -31,6 +32,10 @@ class TweetTableViewCell: UITableViewCell {
       print("Replying to screenname: \(tweetUserScreenname)")
       self.onReplyTap(tweetId, tweetScreenname: tweetUserScreenname)
     }
+    tweetView.userProfileShowHandler = { (user: User) -> Void in
+      
+      self.onUserProfileTap(user)
+    }
     contentView.addSubview(tweetView)
     
     setupConstraints()
@@ -50,6 +55,12 @@ class TweetTableViewCell: UITableViewCell {
   func onReplyTap(tweetId: String, tweetScreenname: String) {
     if let replyActionHandler = self.replyActionHandler {
       replyActionHandler(tweetId: tweet.id, tweetUserScreenname: tweet.user!.screenname)
+    }
+  }
+  
+  func onUserProfileTap(user: User) {
+    if let userProfileShowHandler = userProfileShowHandler {
+      userProfileShowHandler(user: user)
     }
   }
   

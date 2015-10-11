@@ -77,6 +77,12 @@ class HomeViewController: UIViewController {
     navigationController?.pushViewController(composeViewController, animated: true)
   }
   
+  func onUserProfileTap(user: User) {
+    let profileViewController = ProfileViewController(user: user)
+    
+    navigationController?.pushViewController(profileViewController, animated: true)
+  }
+  
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
@@ -105,6 +111,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     cell.tweet = tweets[indexPath.row]
     cell.replyActionHandler = { (tweetId: String, tweetUserScreenname: String) -> Void in
       self.onReplyTap(tweetId, tweetUserScreenname: tweetUserScreenname)
+    }
+    cell.userProfileShowHandler = { (user: User) -> Void in
+      self.onUserProfileTap(user)
     }
     
     return cell
