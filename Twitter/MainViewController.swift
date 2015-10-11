@@ -14,7 +14,11 @@ class MainViewController: UIViewController {
   @IBOutlet weak var menuView: UIView!
   @IBOutlet weak var menuHeaderView: UIView!
   @IBOutlet weak var menuConstraintWidth: NSLayoutConstraint!
-  @IBOutlet weak var menuConstraintHorizontal: NSLayoutConstraint!
+  @IBOutlet weak var menuConstraintLeading: NSLayoutConstraint!
+  
+  @IBOutlet weak var profileImageView: UIImageView!
+  @IBOutlet weak var nameLabel: UILabel!
+  @IBOutlet weak var screennameLabel: UILabel!
   
   var selectedViewController: UIViewController?
   
@@ -23,9 +27,9 @@ class MainViewController: UIViewController {
     ProfileViewController(),
   ]
   
-  var menuBeginningConstraintHorizontal: CGFloat!
-  var menuOpenedConstraintHorizontal: CGFloat!
-  var menuClosedConstraintHorizontal: CGFloat!
+  var menuBeginningConstraintLeading: CGFloat!
+  var menuOpenedConstraintLeading: CGFloat!
+  var menuClosedConstraintLeading: CGFloat!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -42,8 +46,8 @@ class MainViewController: UIViewController {
     let logoutButton = UIBarButtonItem(title: "Logout", style: .Plain, target: self, action: "onLogout:")
     navigationItem.leftBarButtonItem = logoutButton
     
-    menuOpenedConstraintHorizontal = -80.0
-    menuClosedConstraintHorizontal = menuConstraintHorizontal.constant // about -350
+    menuOpenedConstraintLeading = 0
+    menuClosedConstraintLeading = menuConstraintLeading.constant // about -210
     
     menuTableView.delegate = self
     menuTableView.dataSource = self
@@ -57,6 +61,14 @@ class MainViewController: UIViewController {
     let menuPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "onMenuPan:")
     menuPanGestureRecognizer.delegate = self
     menuView.addGestureRecognizer(menuPanGestureRecognizer)
+    
+    profileImageView.setImageWithURL(User.currentUser!.profileImageUrl)
+    profileImageView.layer.cornerRadius = 10.0
+    nameLabel.text = User.currentUser!.name
+    screennameLabel.text = "@" + User.currentUser!.screenname
+    
+    // So text box doesn't extend beyond navigation bar
+    self.edgesForExtendedLayout = UIRectEdge.None
   }
   
   func selectViewController(vc: UIViewController) {
@@ -97,12 +109,12 @@ class MainViewController: UIViewController {
     
     switch sender.state {
     case .Began:
-      menuBeginningConstraintHorizontal = menuConstraintHorizontal.constant
+      menuBeginningConstraintLeading = menuConstraintLeading.constant
       break
     case .Changed:
       let currentPoint = sender.translationInView(self.view)
       
-      menuConstraintHorizontal.constant = menuBeginningConstraintHorizontal + currentPoint.x
+      menuConstraintLeading.constant = menuBeginningConstraintLeading + currentPoint.x
     case .Cancelled:
       // TODO: Handle cancelled
       break
@@ -111,13 +123,13 @@ class MainViewController: UIViewController {
       if sender.velocityInView(self.view).x > 0 {
         // Moving Right
         UIView.animateWithDuration(0.5, animations: { () -> Void in
-          self.menuConstraintHorizontal.constant = self.menuOpenedConstraintHorizontal
+          self.menuConstraintLeading.constant = self.menuOpenedConstraintLeading
           self.view.layoutIfNeeded()
         })
       } else {
         // Moving Left
         UIView.animateWithDuration(0.5, animations: { () -> Void in
-          self.menuConstraintHorizontal.constant = self.menuClosedConstraintHorizontal
+          self.menuConstraintLeading.constant = self.menuClosedConstraintLeading
           self.view.layoutIfNeeded()
         })
       }
@@ -167,10 +179,10 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     // Switch view
     selectViewController(viewControllers[indexPath.row])
 
-    if menuConstraintHorizontal.constant == menuOpenedConstraintHorizontal {
+    if menuConstraintLeading.constant == menuOpenedConstraintLeading {
       // Moving Left
       UIView.animateWithDuration(1.0, animations: { () -> Void in
-        self.menuConstraintHorizontal.constant = self.menuClosedConstraintHorizontal
+        self.menuConstraintLeading.constant = self.menuClosedConstraintLeading
         self.view.layoutIfNeeded()
       })
     }

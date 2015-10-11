@@ -12,6 +12,7 @@
                 <outlet property="profileBackgroundImageView" destination="kQy-kh-uS0" id="xIJ-sX-qQM"/>
                 <outlet property="profileImageView" destination="HPP-AG-gz5" id="Zwo-Sj-hhj"/>
                 <outlet property="screennameLabel" destination="acn-kG-1Cf" id="rh5-IP-SAQ"/>
+                <outlet property="timelineTableView" destination="lLk-b6-84i" id="9B7-YV-zo4"/>
                 <outlet property="tweetsCountLabel" destination="T1m-Hp-KXN" id="Epy-M5-T7P"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -65,7 +66,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pby-y1-5fl">
-                    <rect key="frame" x="309.5" y="180" width="9" height="16"/>
+                    <rect key="frame" x="309" y="180" width="9" height="16"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -82,16 +83,33 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="lLk-b6-84i">
+                    <rect key="frame" x="0.0" y="203" width="600" height="397"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yb4-SU-qze" userLabel="Border View">
+                    <rect key="frame" x="0.0" y="201" width="600" height="1"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="nyL-0r-U4q"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="lLk-b6-84i" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="2rl-b3-U6P"/>
+                <constraint firstItem="yb4-SU-qze" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="8FV-aK-QZH"/>
+                <constraint firstItem="lLk-b6-84i" firstAttribute="top" secondItem="yb4-SU-qze" secondAttribute="bottom" constant="1" id="8Rq-1f-1HS"/>
                 <constraint firstItem="kQy-kh-uS0" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Bqg-Lx-rPx"/>
                 <constraint firstItem="T1m-Hp-KXN" firstAttribute="centerY" secondItem="ga9-z1-K4b" secondAttribute="centerY" id="FGj-4c-epW"/>
+                <constraint firstAttribute="trailing" secondItem="yb4-SU-qze" secondAttribute="trailing" id="FL9-Yy-7kR"/>
                 <constraint firstItem="kQy-kh-uS0" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="FfE-7p-BTs"/>
                 <constraint firstItem="T1m-Hp-KXN" firstAttribute="leading" secondItem="HPP-AG-gz5" secondAttribute="trailing" constant="8" id="Gv5-eZ-FwM"/>
+                <constraint firstAttribute="bottom" secondItem="lLk-b6-84i" secondAttribute="bottom" id="KPV-lO-Gki"/>
                 <constraint firstItem="ga9-z1-K4b" firstAttribute="centerY" secondItem="Pby-y1-5fl" secondAttribute="centerY" id="MkW-tD-Cd7"/>
                 <constraint firstItem="ga9-z1-K4b" firstAttribute="top" secondItem="NDQ-Cq-FT7" secondAttribute="top" id="MsU-aN-9iK"/>
                 <constraint firstItem="Pby-y1-5fl" firstAttribute="leading" secondItem="NDQ-Cq-FT7" secondAttribute="trailing" constant="35" id="Pq2-Pa-ef4"/>
+                <constraint firstItem="yb4-SU-qze" firstAttribute="top" secondItem="ga9-z1-K4b" secondAttribute="bottom" constant="5" id="RRn-B2-qOQ"/>
                 <constraint firstItem="ga9-z1-K4b" firstAttribute="leading" secondItem="za5-gv-BDI" secondAttribute="trailing" constant="35" id="V5Z-wf-YfN"/>
                 <constraint firstItem="T1m-Hp-KXN" firstAttribute="top" secondItem="8e0-KE-EZQ" secondAttribute="bottom" constant="8" id="WXH-jd-LCQ"/>
                 <constraint firstItem="Pby-y1-5fl" firstAttribute="top" secondItem="UjO-VQ-pj2" secondAttribute="top" id="X7I-2U-pBd"/>
@@ -103,6 +121,7 @@
                 <constraint firstItem="UjO-VQ-pj2" firstAttribute="leading" secondItem="Pby-y1-5fl" secondAttribute="trailing" constant="4.5" id="fYv-sR-coD"/>
                 <constraint firstItem="Pby-y1-5fl" firstAttribute="top" secondItem="UjO-VQ-pj2" secondAttribute="top" id="flp-XS-yUb"/>
                 <constraint firstItem="8e0-KE-EZQ" firstAttribute="top" secondItem="kQy-kh-uS0" secondAttribute="bottom" constant="8" id="kJ3-vh-ba1"/>
+                <constraint firstAttribute="trailing" secondItem="lLk-b6-84i" secondAttribute="trailing" id="onf-3i-11O"/>
                 <constraint firstItem="NDQ-Cq-FT7" firstAttribute="leading" secondItem="ga9-z1-K4b" secondAttribute="trailing" constant="4.5" id="pWX-AF-sqe"/>
                 <constraint firstItem="8e0-KE-EZQ" firstAttribute="centerY" secondItem="acn-kG-1Cf" secondAttribute="centerY" id="sUh-LD-ryw"/>
                 <constraint firstItem="HPP-AG-gz5" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="v1Y-SH-Xdb"/>

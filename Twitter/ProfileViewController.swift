@@ -16,7 +16,9 @@ class ProfileViewController: UIViewController {
   @IBOutlet weak var tweetsCountLabel: UILabel!
   @IBOutlet weak var followersCountLabel: UILabel!
   @IBOutlet weak var followingCountLabel: UILabel!
+  @IBOutlet weak var timelineTableView: UITableView!
   
+  var tweets = [Tweet]()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -29,6 +31,22 @@ class ProfileViewController: UIViewController {
     followingCountLabel.text = "\(User.currentUser!.followingCount)"
     profileBackgroundImageView.setImageWithURL(User.currentUser!.profileBannerUrl)
     profileImageView.setImageWithURL(User.currentUser!.profileImageUrl)
+    profileImageView.layer.cornerRadius = 10.0
+    
+    timelineTableView.delegate = self
+    timelineTableView.dataSource = self
+    timelineTableView.registerNib(UINib(nibName: "TweetTableViewCell", bundle: nil), forCellReuseIdentifier: "TweetTableViewCell")
+    timelineTableView.rowHeight = UITableViewAutomaticDimension
+    timelineTableView.estimatedRowHeight = 140
+    
+    TwitterClient.sharedInstance.userTimelineWithParams(nil) { (tweets, error) -> Void in
+      if error == nil {
+        if let tweets = tweets {
+          self.tweets = tweets
+          self.timelineTableView.reloadData()
+        }
+      }
+    }
   }
   
   override func didReceiveMemoryWarning() {
@@ -36,6 +54,9 @@ class ProfileViewController: UIViewController {
     // Dispose of any resources that can be recreated.
   }
   
+  func onReplyTap(tweetId: String, tweetUserScreenname: String) {
+    
+  }
   
   /*
   // MARK: - Navigation
@@ -47,4 +68,20 @@ class ProfileViewController: UIViewController {
   }
   */
   
+}
+
+extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
+  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return tweets.count
+  }
+  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    let cell = timelineTableView.dequeueReusableCellWithIdentifier("TweetTableViewCell", forIndexPath: indexPath) as! TweetTableViewCell
+    
+    cell.tweet = tweets[indexPath.row]
+    cell.replyActionHandler = { (tweetId: String, tweetUserScreenname: String) -> Void in
+      self.onReplyTap(tweetId, tweetUserScreenname: tweetUserScreenname)
+    }
+    
+    return cell
+  }
 }
