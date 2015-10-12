@@ -10,12 +10,18 @@ import UIKit
 import BDBOAuth1Manager
 
 class LoginViewController: UIViewController {
+  @IBOutlet weak var loginLabel: UIButton!
+  @IBOutlet weak var twitterLogoImageView: UIImageView!
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
     // Do any additional setup after loading the view.
     navigationItem.title = "Twitter"
+    
+    self.view.backgroundColor = Appearance.colorTwitterBlue
+    
+    self.twitterLogoImageView.image = UIImage(named: "TwitterLogo_white")
   }
   
   override func didReceiveMemoryWarning() {

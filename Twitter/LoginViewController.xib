@@ -6,6 +6,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginViewController" customModule="Twitter" customModuleProvider="target">
             <connections>
+                <outlet property="loginLabel" destination="JPo-ni-7nH" id="LKS-Ot-LdJ"/>
+                <outlet property="twitterLogoImageView" destination="35z-RZ-PGH" id="Yjx-6j-Fr6"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -15,19 +17,28 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JPo-ni-7nH">
-                    <rect key="frame" x="281" y="285" width="38" height="30"/>
-                    <state key="normal" title="Login">
+                    <rect key="frame" x="283" y="416" width="34" height="30"/>
+                    <state key="normal" title="login">
                         <color key="titleColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <connections>
                         <action selector="onLogin:" destination="-1" eventType="touchUpInside" id="gyI-sw-WcQ"/>
                     </connections>
                 </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="35z-RZ-PGH">
+                    <rect key="frame" x="200" y="200" width="200" height="200"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="200" id="QzQ-f0-C4y"/>
+                        <constraint firstAttribute="height" constant="200" id="whu-P8-B6v"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" red="0.27450980390000002" green="0.60392156860000001" blue="0.91764705879999997" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstItem="35z-RZ-PGH" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="4AW-bw-CpJ"/>
                 <constraint firstItem="JPo-ni-7nH" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="OQu-aJ-xSd"/>
-                <constraint firstItem="JPo-ni-7nH" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="leP-R3-QVb"/>
+                <constraint firstItem="35z-RZ-PGH" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="cZV-Xc-WJN"/>
+                <constraint firstItem="JPo-ni-7nH" firstAttribute="top" secondItem="35z-RZ-PGH" secondAttribute="bottom" constant="16" id="ltP-FJ-ks8"/>
             </constraints>
         </view>
     </objects>
