@@ -31,8 +31,10 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     navigationItem.title = "What's happening?"
     
     navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Tweet", style: UIBarButtonItemStyle.Plain, target: self, action: "onTweet")
+    navigationItem.rightBarButtonItem?.setTitleTextAttributes([NSForegroundColorAttributeName: Appearance.colorTwitterWhite], forState: UIControlState.Normal)
     
     navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "onCancel")
+    navigationItem.leftBarButtonItem?.setTitleTextAttributes([NSForegroundColorAttributeName: Appearance.colorTwitterWhite], forState: UIControlState.Normal)
     
     // So text box doesn't extend beyond navigation bar
     self.edgesForExtendedLayout = UIRectEdge.None

@@ -93,15 +93,17 @@ class TweetView: UIView {
   func setupSubviews() {
     nameLabel = UILabel()
     nameLabel.font = UIFont.boldSystemFontOfSize(13.0)
+    nameLabel.textColor = Appearance.colorTwitterBlack
     addSubview(nameLabel)
     
     screennameLabel = UILabel()
     screennameLabel.font = UIFont.systemFontOfSize(11.0)
-    screennameLabel.textColor = UIColor.lightGrayColor()
+    screennameLabel.textColor = Appearance.colorTwitterDarkGray
     addSubview(screennameLabel)
     
     tweetTextLabel = UILabel()
     tweetTextLabel.font = UIFont.systemFontOfSize(16)
+    tweetTextLabel.textColor = Appearance.colorTwitterBlack
     tweetTextLabel.numberOfLines = 0
     addSubview(tweetTextLabel)
     
@@ -112,6 +114,7 @@ class TweetView: UIView {
     
     favoriteLabel = UILabel()
     favoriteLabel.font = UIFont.systemFontOfSize(10.0)
+    favoriteLabel.textColor = screennameLabel.textColor
     addSubview(favoriteLabel)
     
     profileThumbImageView = UIImageView()

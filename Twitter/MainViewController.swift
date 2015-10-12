@@ -29,17 +29,24 @@ class MainViewController: UIViewController {
   
   let chevronAlpha: CGFloat = 0.5
   
+  let pageNames = [ "Home", "Profile", "Mentions" ]
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
     self.selectViewController(HomeViewController())
     
     // Do any additional setup after loading the view.
-    navigationItem.title = "Home"
+    navigationItem.title = pageNames[0]
     navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: UIBarButtonItemStyle.Plain, target: self, action: "onCompose")
+    navigationItem.rightBarButtonItem?.setTitleTextAttributes([NSForegroundColorAttributeName: Appearance.colorTwitterWhite], forState: UIControlState.Normal)
     
     let logoutButton = UIBarButtonItem(title: "Logout", style: .Plain, target: self, action: "onLogout:")
     navigationItem.leftBarButtonItem = logoutButton
+    navigationItem.leftBarButtonItem?.setTitleTextAttributes([NSForegroundColorAttributeName: Appearance.colorTwitterWhite], forState: UIControlState.Normal)
+    
+    navigationController?.navigationBar.barTintColor = Appearance.colorTwitterBlue
+    navigationController?.navigationBar.translucent = false
     
     menuOpenedConstraintLeading = 0
     menuClosedConstraintLeading = menuConstraintLeading.constant // about -210
@@ -61,8 +68,11 @@ class MainViewController: UIViewController {
     
     profileImageView.setImageWithURL(User.currentUser!.profileImageUrl)
     profileImageView.layer.cornerRadius = 10.0
+    profileImageView.layer.masksToBounds = true
     nameLabel.text = User.currentUser!.name
+    nameLabel.textColor = Appearance.colorTwitterBlack
     screennameLabel.text = "@" + User.currentUser!.screenname
+    screennameLabel.textColor = Appearance.colorTwitterDarkGray
     
     chevronImageView.image = UIImage(named: "chevron-25")
     chevronImageView.alpha = chevronAlpha
@@ -206,15 +216,15 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     let cell = tableView.dequeueReusableCellWithIdentifier("MenuItemCell", forIndexPath: indexPath) as! MenuItemCell
     
     if indexPath.row == 0 {
-      cell.nameLabel.text = "Home"
       cell.iconImageView.image = UIImage(named: "home-25")
     } else if indexPath.row == 1 {
-      cell.nameLabel.text = "Profile"
       cell.iconImageView.image = UIImage(named: "twitter-25")
     } else if indexPath.row == 2 {
-      cell.nameLabel.text = "Mentions"
       cell.iconImageView.image = UIImage(named: "speech_bubble-25")
     }
+    
+    cell.nameLabel.text = pageNames[indexPath.row]
+    cell.nameLabel.textColor = Appearance.colorTwitterBlack
     
     return cell
   }
@@ -225,12 +235,13 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     // Switch view
     if indexPath.row == 0 {
       selectViewController(HomeViewController())
-      
     } else if indexPath.row == 1 {
       selectViewController(ProfileViewController(user: User.currentUser!))
     } else if indexPath.row == 2 {
       selectViewController(HomeViewController(mentionsOnly: true))
     }
+    
+    navigationItem.title = pageNames[indexPath.row]
     
     if menuConstraintLeading.constant == menuOpenedConstraintLeading {
       // Moving Left (Closing)

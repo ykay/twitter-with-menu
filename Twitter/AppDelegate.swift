@@ -18,9 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     // Override point for customization after application launch.
     self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-
-    /*self.window!.rootViewController = MainViewController()
-    self.window!.makeKeyAndVisible()*/
     
     let viewController: UIViewController = LoginViewController()
     let navController: UINavigationController = UINavigationController(rootViewController: viewController)
@@ -30,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     navController.navigationItem.title = "Twitter"
     
-    let titleDict: [String:AnyObject] = [NSForegroundColorAttributeName: UIColor(red:0.27, green:0.60, blue:0.92, alpha:1.0)]
+    let titleDict: [String:AnyObject] = [NSForegroundColorAttributeName: Appearance.colorTwitterWhite]
     navController.navigationBar.titleTextAttributes = titleDict as [String : AnyObject]
     
     NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDidLogout", name: userLogoutNotification, object: nil)

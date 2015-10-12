@@ -46,6 +46,10 @@ class ProfileViewController: UIViewController {
     // Do any additional setup after loading the view.
     self.edgesForExtendedLayout = UIRectEdge.None
     
+    let backButton = UIBarButtonItem(title: "Back", style: .Plain, target: self, action: "onBack")
+    navigationItem.leftBarButtonItem = backButton
+    navigationItem.leftBarButtonItem?.setTitleTextAttributes([NSForegroundColorAttributeName: Appearance.colorTwitterWhite], forState: UIControlState.Normal)
+    
     timelineTableView.delegate = self
     timelineTableView.dataSource = self
     timelineTableView.registerNib(UINib(nibName: "TweetTableViewCell", bundle: nil), forCellReuseIdentifier: "TweetTableViewCell")
@@ -96,6 +100,10 @@ class ProfileViewController: UIViewController {
     let profileViewController = ProfileViewController(user: user)
     
     navigationController?.pushViewController(profileViewController, animated: true)
+  }
+  
+  func onBack() {
+    navigationController?.popViewControllerAnimated(true)
   }
   
   /*

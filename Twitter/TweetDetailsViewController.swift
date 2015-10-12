@@ -17,6 +17,7 @@ class TweetDetailsViewController: UIViewController {
     
     // Do any additional setup after loading the view.
     navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "onCancel")
+    navigationItem.leftBarButtonItem?.setTitleTextAttributes([NSForegroundColorAttributeName: Appearance.colorTwitterWhite], forState: UIControlState.Normal)
     
     // So text box doesn't extend beyond navigation bar
     self.edgesForExtendedLayout = UIRectEdge.None
